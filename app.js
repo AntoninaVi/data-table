@@ -22,21 +22,21 @@ const db = getFirestore();
 const usersRef = collection(db, 'users');
 
 
-addDoc(usersRef, {
-    email: 'example@email.com',
-    name: 'Phillip Saris',
-    userStatus: 'Active',
-    lastLoginDate: new Date(),
-    paymentStatus: 'Paid',
-    paymentDate: new Date(),
-    paymentAmount: 500
-})
-    .then((docRef) => {
-        console.log('Document written ', docRef.id);
-    })
-    .catch((error) => {
-        console.error('Error adding document: ', error);
-    });
+// addDoc(usersRef, {
+//     email: 'example@email.com',
+//     name: 'Phillip Saris',
+//     userStatus: 'Active',
+//     lastLoginDate: new Date(),
+//     paymentStatus: 'Paid',
+//     paymentDate: new Date(),
+//     paymentAmount: 500
+// })
+//     .then((docRef) => {
+//         console.log('Document written ', docRef.id);
+//     })
+//     .catch((error) => {
+//         console.error('Error adding document: ', error);
+//     });
 
 
 const userTableBody = document.getElementById('main__table-content');
@@ -88,7 +88,7 @@ getDocs(usersRef)
 
             const menuDotsTd = document.createElement('td');
             menuDotsTd.className = 'table-menu-dots';
-            menuDotsTd.innerHTML = '<button></button>';
+            menuDotsTd.innerHTML = '<button class="table-menu-dots-button">Dots</button>';
 
             tr.appendChild(checkboxTd);
             tr.appendChild(imgTd);
@@ -317,9 +317,34 @@ function updateTableBody(filteredRows) {
         tableBody.appendChild(row);
     });
 }
-
 // Handle filter button click event
 filterButton.addEventListener('click', () => {
     const filteredRows = filterTableRows();
     updateTableBody(filteredRows);
 });
+
+
+//Menu dots
+
+const menuDotsButton = document.querySelector('.table-menu-dots-button');
+
+const dropdownMenu = document.querySelector('.table-menu-dots-dropdown');
+
+
+menuDotsButton.addEventListener('click', (event) => {
+
+    event.preventDefault();
+
+
+    dropdownMenu.style.display = "block";
+});
+// 
+window.addEventListener('click', (event) => {
+    if (!event.target.matches('.table-menu-dots-button')) {
+        dropdownMenu.style.display = "none";
+    }
+});
+
+
+
+
