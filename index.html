@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -16,10 +17,10 @@
             <header class="header">
                 <h1 class="header__title">Table Heading</h1>
                 <div class="header__tabs">
-                    <div class="tab">All</div>
-                    <div class="tab">Paid</div>
-                    <div class="tab">Unpaid</div>
-                    <div class="tab">Overdue</div>
+                    <button id="tabAll" class="tab">All</button>
+                    <button id="tabPaid" class="tab">Paid</button>
+                    <button id="tabUnpaid" class="tab">Unpaid</button>
+                    <button id="tabOverdue" class="tab">Overdue</button>
                 </div>
                 <div class="header__payment">
                     <p class="payment__description">Total payable amount: <span>$900.00</span>USD</p>
@@ -30,7 +31,9 @@
                     <div class="main__filter">
                         <button></button>
                     </div>
-                    <div class="main__search"></div>
+                    <div class="main__search">
+                        <input type="text" id="search-input" placeholder="Search Users by Name, Email or Date">
+                    </div>
                 </div>
                 <button class="main__options-button">Pay Dues</button>
                 <table class="main__table">
@@ -45,10 +48,11 @@
                     <tr>
                         <td><input type="checkbox" name="" id=""></td>
                         <td><img src="" alt=""></td>
-                        <td class="table-name">Justn</td>
-                        <td class="table-status">Active</td>
-                        <td class="table-payment">Paid</td>
-                        <td class="table-amount">$200</td>
+                        <td class="table-name"></td>
+                        <td class="table-email"></td>
+                        <td class="table-status"></td>
+                        <td class="table-payment"></td>
+                        <td class="table-amount"></td>
                         <td class="table-more"><button>View More</button></td>
                         <td class="table-menu-dots"><button></button></td>
                     </tr>
@@ -56,10 +60,10 @@
                 </table>
             </main>
             <footer class="footer">
-                <p class="footer__text">Rows per page: 10</p> <button></button>
+                <p class="footer__text">Rows per page: 10</p> <button class="footer-dropdown">dropdown</button>
                 <p class="footer__text">1-10 of 276</p>
-                <button class="footer__button-arrow"></button>
-                <button class="footer__button-arrow"></button>
+                <button class="footer__button-arrow-forward">назад</button>
+                <button class="footer__button-arrow">вперед</button>
             </footer>
         </div>
     </div>

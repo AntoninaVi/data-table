@@ -24,15 +24,15 @@ const usersRef = collection(db, 'users');
 // 
 addDoc(usersRef, {
     email: 'example@email.com',
-    name: 'Tatiana Doe',
-    userStatus: 'Active',
+    name: 'Phillip Saris',
+    userStatus: 'Unactive',
     lastLoginDate: new Date(),
-    paymentStatus: 'Paid',
+    paymentStatus: 'Overdue',
     paymentDate: new Date(),
     paymentAmount: 200
 })
     .then((docRef) => {
-        console.log('Document written with ID: ', docRef.id);
+        console.log('Document written ', docRef.id);
     })
     .catch((error) => {
         console.error('Error adding document: ', error);
@@ -45,6 +45,7 @@ const userTableBody = document.getElementById('user-table-body');
 getDocs(usersRef)
     .then((snapshot) => {
         snapshot.docs.forEach((doc) => {
+            
             const userData = doc.data();
             const tr = document.createElement('tr');
 
@@ -58,6 +59,11 @@ getDocs(usersRef)
             const nameTd = document.createElement('td');
             nameTd.className = 'table-name';
             nameTd.textContent = userData.name;
+
+            const emailTd = document.createElement('td');
+            emailTd.className = 'table-email';
+            emailTd.textContent = userData.email;
+
 
             const userStatusTd = document.createElement('td');
             userStatusTd.className = 'table-status';
@@ -82,6 +88,7 @@ getDocs(usersRef)
             tr.appendChild(checkboxTd);
             tr.appendChild(imgTd);
             tr.appendChild(nameTd);
+            tr.appendChild(emailTd);
             tr.appendChild(userStatusTd);
             tr.appendChild(paymentStatusTd);
             tr.appendChild(amountTd);
@@ -90,41 +97,128 @@ getDocs(usersRef)
             userTableBody.appendChild(tr);
 
         })
+        displayRows(tableRows, currentPage, rowsPerPage);
     });
 
 
 
 
 
+const tableBody = document.getElementById('user-table-body');
+const tableRows = tableBody.getElementsByTagName('tr');
+
+const rowsPerPageDropdown = document.querySelector('.footer-dropdown');
+const rowsPerPageOptions = [10, 20, 30];
+const rowsPerPageText = document.querySelector('.footer__text:first-child');///
+const rowsPerPageTotal = document.querySelector('.footer__text:last-child');///
+
+const backButton = document.querySelector('.footer__button-arrow-forward');
+const forwardButton = document.querySelector('.footer__button-arrow');
+let currentPage = 1;
+let rowsPerPage = 10;
+
+// to show amount of strings
+function displayRows(rows, page, perPage) {
+    const start = (page - 1) * perPage;
+    const end = start + perPage;
+    for (let i = 0; i < rows.length; i++) {
+        if (i < start || i >= end) {
+            rows[i].style.display = 'none';
+        } else {
+            rows[i].style.display = '';
+        }
+    }
+}
+
+function updateFooterText() {
+    const start = (currentPage - 1) * rowsPerPage + 1;
+    const end = Math.min(start + rowsPerPage - 1, tableRows.length);
+
+    if (rowsPerPageText) {
+        rowsPerPageText.textContent = `Rows per page: ${rowsPerPage}`;
+    }
+
+    if (rowsPerPageTotal) {
+        rowsPerPageTotal.textContent = `${start}-${end} of ${tableRows.length}`;
+    }
+}
+
+// 
+function updateTable() {
+    const tableBody = document.getElementById('user-table-body');
+    const tableRows = tableBody.getElementsByTagName('tr');
+    displayRows(tableRows, currentPage, rowsPerPage);
+    updateFooterText();
+}
+
+//dropdown
+rowsPerPageDropdown.addEventListener('click', () => {
+    const dropdownMenu = rowsPerPageDropdown.nextElementSibling;
+    dropdownMenu.innerHTML = '';
+    rowsPerPageOptions.forEach(option => {
+        const listItem = document.createElement('option');
+        listItem.textContent = option;
+        listItem.addEventListener('click', () => {
+            rowsPerPage = option;
+            currentPage = 1;
+            updateTable();
+        });
+        dropdownMenu.appendChild(listItem);
+    });
+});
+
+backButton.addEventListener('click', () => {
+    if (currentPage > 1) {
+        currentPage--;
+        updateTable();
+    }
+});
+
+forwardButton.addEventListener('click', () => {
+    if (currentPage < Math.ceil(tableRows.length / rowsPerPage)) {
+        currentPage++;
+        updateTable();
+    }
+});
+updateTable();
 
 
 
+//Tabs filter
+const tabs = document.querySelectorAll('.tab');
+
+tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+        const status = tab.textContent.toLowerCase();
+        for (let i = 0; i < tableRows.length; i++) {
+            const paymentStatus = tableRows[i].querySelector('.table-payment').textContent.toLowerCase();
+            if (status === 'all' || paymentStatus === status) {
+                tableRows[i].style.display = '';
+            } else {
+                tableRows[i].style.display = 'none';
+            }
+        }
+        currentPage = 1;
+        updateFooterText();
+    });
+});
 
 
+//Search input
+const searchInput = document.querySelector('.main__search input');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+searchInput.addEventListener('keyup', (event) => {
+    if (event.key === 'Enter') {
+    const searchTerm = event.target.value.toLowerCase();
+    const rows = Array.from(tableRows);
+    rows.forEach(row => {
+        if (row.textContent.toLowerCase().includes(searchTerm)) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+    currentPage = 1;
+    updateFooterText();
+}
+});
