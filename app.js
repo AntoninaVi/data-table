@@ -27,9 +27,9 @@ addDoc(usersRef, {
     name: 'Phillip Saris',
     userStatus: 'Unactive',
     lastLoginDate: new Date(),
-    paymentStatus: 'Overdue',
+    paymentStatus: 'Paid',
     paymentDate: new Date(),
-    paymentAmount: 200
+    paymentAmount: 500
 })
     .then((docRef) => {
         console.log('Document written ', docRef.id);
@@ -44,8 +44,9 @@ const userTableBody = document.getElementById('user-table-body');
 // get collection "users"
 getDocs(usersRef)
     .then((snapshot) => {
+
         snapshot.docs.forEach((doc) => {
-            
+
             const userData = doc.data();
             const tr = document.createElement('tr');
 
@@ -209,16 +210,31 @@ const searchInput = document.querySelector('.main__search input');
 
 searchInput.addEventListener('keyup', (event) => {
     if (event.key === 'Enter') {
-    const searchTerm = event.target.value.toLowerCase();
-    const rows = Array.from(tableRows);
-    rows.forEach(row => {
-        if (row.textContent.toLowerCase().includes(searchTerm)) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
+        const searchTerm = event.target.value.toLowerCase();
+        const rows = Array.from(tableRows);
+        rows.forEach(row => {
+            if (row.textContent.toLowerCase().includes(searchTerm)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+        currentPage = 1;
+        updateFooterText();
+    }
+});
+
+//Total amount of paid
+const totalAmountPayment = document.querySelector('.payment__description span');
+
+let total = 0;
+getDocs(usersRef).then((snapshot) => {
+    snapshot.docs.forEach((doc) => {
+        const userData = doc.data();
+        if (userData.paymentStatus === "Paid") {
+            total += userData.paymentAmount;
         }
     });
-    currentPage = 1;
-    updateFooterText();
-}
+    console.log(total);
+    totalAmountPayment.textContent = total;
 });
