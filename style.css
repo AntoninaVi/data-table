@@ -10,7 +10,25 @@
     margin-right: auto;
 }
 .main__table{
+    display: flex;
+    flex-direction: column;
     width: 100%;
+}
+.main__table-heading{
+    display: flex;
+    justify-content: space-between;
+}
+.main__table-content{
+    display: flex;
+    flex-direction: column;
+}
+.main__table-content tr{
+      display: grid;
+      grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+      align-items: center;
+}
+.main__table-content td{
+    height: 3.8em;
 }
 .footer{
     display: flex;

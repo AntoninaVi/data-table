@@ -21,11 +21,11 @@ initializeApp(firebaseConfig);
 const db = getFirestore();
 const usersRef = collection(db, 'users');
 
-// 
+
 addDoc(usersRef, {
     email: 'example@email.com',
     name: 'Phillip Saris',
-    userStatus: 'Unactive',
+    userStatus: 'Active',
     lastLoginDate: new Date(),
     paymentStatus: 'Paid',
     paymentDate: new Date(),
@@ -39,7 +39,7 @@ addDoc(usersRef, {
     });
 
 
-const userTableBody = document.getElementById('user-table-body');
+const userTableBody = document.getElementById('main__table-content');
 
 // get collection "users"
 getDocs(usersRef)
@@ -74,6 +74,10 @@ getDocs(usersRef)
             paymentStatusTd.className = 'table-payment';
             paymentStatusTd.textContent = userData.paymentStatus;
 
+            const userLastLogin = document.createElement('td');
+            userLastLogin.className = 'table-last-login';
+            userLastLogin.textContent = userData.userLastLogin;
+
             const amountTd = document.createElement('td');
             amountTd.className = 'table-amount';
             amountTd.textContent = `$${userData.paymentAmount}`;
@@ -92,6 +96,7 @@ getDocs(usersRef)
             tr.appendChild(emailTd);
             tr.appendChild(userStatusTd);
             tr.appendChild(paymentStatusTd);
+            tr.appendChild(userLastLogin);
             tr.appendChild(amountTd);
             tr.appendChild(viewMoreTd);
             tr.appendChild(menuDotsTd);
@@ -105,7 +110,7 @@ getDocs(usersRef)
 
 
 
-const tableBody = document.getElementById('user-table-body');
+const tableBody = document.getElementById('main__table-content');
 const tableRows = tableBody.getElementsByTagName('tr');
 
 const rowsPerPageDropdown = document.querySelector('.footer-dropdown');
@@ -146,7 +151,7 @@ function updateFooterText() {
 
 // 
 function updateTable() {
-    const tableBody = document.getElementById('user-table-body');
+    const tableBody = document.getElementById('main__table-content');
     const tableRows = tableBody.getElementsByTagName('tr');
     displayRows(tableRows, currentPage, rowsPerPage);
     updateFooterText();
@@ -237,4 +242,84 @@ getDocs(usersRef).then((snapshot) => {
     });
     console.log(total);
     totalAmountPayment.textContent = total;
+});
+
+
+//Filter
+const filterButton = document.querySelector('.filter-button');
+const sortRadioButtons = document.querySelectorAll('[name="sort"]');
+const usersRadioButtons = document.querySelectorAll('[name="users"]');
+
+// selected sort and users radio buttons
+function getSelectedSort() {
+    return Array.from(sortRadioButtons).find(radio => radio.checked).value;
+}
+
+function getSelectedUsers() {
+    return Array.from(usersRadioButtons).find(radio => radio.checked).value;
+}
+
+// Filter table rows 
+function filterTableRows() {
+    const selectedSort = getSelectedSort();
+    const selectedUsers = getSelectedUsers();
+
+    const filteredRows = Array.from(tableRows)
+        .filter(row => {
+            const userStatus = row.querySelector('.table-status').textContent;
+            if (selectedUsers === 'active') {
+                return userStatus.toLowerCase() === 'active';
+            } else if (selectedUsers === 'inactive') {
+                return userStatus.toLowerCase() !== 'active';
+            }
+            return true; // selectedUsers === 'all'
+        })
+        .sort((row1, row2) => {
+            let value1, value2;
+            switch (selectedSort) {
+                case 'firstName':
+                    value1 = row1.querySelector('.table-name').textContent;
+                    value2 = row2.querySelector('.table-name').textContent;
+                    break;
+                case 'lastName':
+                    value1 = row1.querySelector('.table-name').textContent.split(' ')[1];
+                    value2 = row2.querySelector('.table-name').textContent.split(' ')[1];
+                    break;
+                // case 'dueDate':
+                //     value1 = new Date(row1.querySelector('.table-due-date').textContent);
+                //     value2 = new Date(row2.querySelector('.table-due-date').textContent);/// to fix 
+                //     break;
+                // case 'lastLogin':
+                //     value1 = new Date(row1.querySelector('.table-last-login').textContent);
+                //     value2 = new Date(row2.querySelector('.table-last-login').textContent);
+                //     break;
+                default:
+                    return 0; // selectedSort === 'default'
+            }
+            if (value1 < value2) {
+                return -1;
+            } else if (value1 > value2) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+
+    return filteredRows;
+}
+
+// Update table body with filtered rows
+function updateTableBody(filteredRows) {
+    while (tableBody.firstChild) {
+        tableBody.removeChild(tableBody.firstChild);
+    }
+    filteredRows.forEach(row => {
+        tableBody.appendChild(row);
+    });
+}
+
+// Handle filter button click event
+filterButton.addEventListener('click', () => {
+    const filteredRows = filterTableRows();
+    updateTableBody(filteredRows);
 });

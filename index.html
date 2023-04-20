@@ -28,16 +28,35 @@
             </header>
             <main class="main">
                 <div class="main__options">
+
                     <div class="main__filter">
-                        <button></button>
+                        <button class="filter-button">filter</button>
+                        <div class="filter-menu">
+                            <div class="filter-menu__sort">
+                                <h3>Sort by:</h3>
+                                <label><input type="radio" name="sort" value="default" checked>Default</label>
+                                <label><input type="radio" name="sort" value="firstName">First Name</label>
+                                <label><input type="radio" name="sort" value="lastName">Last Name</label>
+                                <label><input type="radio" name="sort" value="dueDate">Due Date</label>
+                                <label><input type="radio" name="sort" value="lastLogin">Last Login</label>
+                            </div>
+                            <div class="filter-menu__users">
+                                <h3>Users:</h3>
+                                <label><input type="radio" name="users" value="all" checked>All</label>
+                                <label><input type="radio" name="users" value="active">Active</label>
+                                <label><input type="radio" name="users" value="inactive">Inactive</label>
+                            </div>
+                        </div>
                     </div>
+
+
                     <div class="main__search">
                         <input type="text" id="search-input" placeholder="Search Users by Name, Email or Date">
                     </div>
                 </div>
                 <button class="main__options-button">Pay Dues</button>
                 <table class="main__table">
-                    <tr>
+                    <tr class="main__table-heading">
                         <th class="table-checkbox"><input type="checkbox" name="" id=""></th>
                         <th class="table-title">Name</th>
                         <th class="table-title">USER Status</th>
@@ -45,7 +64,7 @@
                         <th class="table-title">Amount</th>
                         <th class="table-menu-dots"><button><img src="" alt=""></button></th>
                     </tr>
-                    <tr>
+                    <!-- <tr class="main__table-content">
                         <td><input type="checkbox" name="" id=""></td>
                         <td><img src="" alt=""></td>
                         <td class="table-name"></td>
@@ -55,8 +74,8 @@
                         <td class="table-amount"></td>
                         <td class="table-more"><button>View More</button></td>
                         <td class="table-menu-dots"><button></button></td>
-                    </tr>
-                    <tbody id="user-table-body"></tbody>
+                    </tr> -->
+                    <tbody class="main__table-content" id="main__table-content"></tbody>
                 </table>
             </main>
             <footer class="footer">
@@ -68,7 +87,7 @@
         </div>
     </div>
 
-<script type="module" src="/app.js"></script>
+    <script type="module" src="/app.js"></script>
 </body>
 
 </html>
