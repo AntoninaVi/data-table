@@ -24,10 +24,10 @@ const usersRef = collection(db, 'users');
 
 // addDoc(usersRef, {
 //     email: 'example@email.com',
-//     name: 'Phillip Saris',
+//     name: 'Alina Kohl',
 //     userStatus: 'Active',
 //     lastLoginDate: new Date(),
-//     paymentStatus: 'Paid',
+//     paymentStatus: 'Overdue',
 //     paymentDate: new Date(),
 //     paymentAmount: 500
 // })
@@ -270,7 +270,7 @@ function filterTableRows() {
             if (selectedUsers === 'active') {
                 return userStatus.toLowerCase() === 'active';
             } else if (selectedUsers === 'inactive') {
-                return userStatus.toLowerCase() !== 'active';
+                return userStatus.toLowerCase() === 'inactive';
             }
             return true; // selectedUsers === 'all'
         })
@@ -346,5 +346,47 @@ window.addEventListener('click', (event) => {
 });
 
 
+
+
+const menu = document.createElement('div');
+menu.classList.add('menu-dots-list');
+
+// Edit
+const editButton = document.createElement('button');
+editButton.textContent = 'Edit';
+editButton.classList.add('menu-dots-item');
+menu.appendChild(editButton);
+
+// View Profile
+const viewProfileButton = document.createElement('button');
+viewProfileButton.textContent = 'View Profile';
+viewProfileButton.classList.add('menu-dots-item');
+menu.appendChild(viewProfileButton);
+
+// Activate User
+const activateUserButton = document.createElement('button');
+activateUserButton.textContent = 'Activate User';
+activateUserButton.classList.add('activate-user-menu-item');
+menu.appendChild(activateUserButton);
+
+// Delete
+const deleteButton = document.createElement('button');
+deleteButton.textContent = 'Delete';
+deleteButton.classList.add('menu-dots-item');
+menu.appendChild(deleteButton);
+
+// dots Button
+tableBody.addEventListener('click', function (event) {
+    const targetRow = event.target.closest('tr');
+    const menuDotsTd = targetRow.querySelector('.table-menu-dots');
+
+    if (event.target.classList.contains('table-menu-dots-button') && menuDotsTd.contains(menu)) {
+        // Close menu
+        menuDotsTd.removeChild(menu);
+    } else {
+        // Open menu
+        menuDotsTd.appendChild(menu);
+    }
+});
 
 
