@@ -390,3 +390,13 @@ tableBody.addEventListener('click', function (event) {
 });
 
 
+activateUserButton.addEventListener('click', function () {
+    const targetRow = event.target.closest('tr');
+    const userStatus = targetRow.querySelector('.table-status');
+
+    if (userStatus.textContent === 'Inactive') {
+        userStatus.textContent = 'Active';
+    } else {
+        userStatus.textContent = 'Inactive';
+    }
+});
