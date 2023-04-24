@@ -1,6 +1,6 @@
 // Initialize Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
-import { getFirestore, orderBy, query, setDoc, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
+import { getFirestore, orderBy, query, setDoc, collection, getDocs, addDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
 
 
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -21,21 +21,24 @@ initializeApp(firebaseConfig);
 const db = getFirestore();
 const usersRef = collection(db, 'users');
 
+//Add data
 
 // addDoc(usersRef, {
 //     email: 'example@email.com',
-//     name: 'Alina Kohl',
-//     userStatus: 'Active',
-//     lastLoginDate: new Date(),
-//     paymentStatus: 'Overdue',
+//     name: 'Boris Yyyy',
+//     userStatus: 'Inactive',
+//     lastLoginDate: new Date().toDateString(),
+//     paymentStatus: 'Unpaid',
 //     paymentDate: new Date(),
-//     paymentAmount: 500
+//     paymentAmount: 500,
+//     userActivity: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies.',
+//     userDetail: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Rhoncus, sed purus eu semper morbi id nunc, adipiscing vitae. Ultricies suspendisse vestibulum.'
 // })
 //     .then((docRef) => {
-//         console.log('Document written ', docRef.id);
+//         console.log('User has been added', docRef.id);
 //     })
 //     .catch((error) => {
-//         console.error('Error adding document: ', error);
+//         console.error('Error adding user: ', error);
 //     });
 
 
@@ -43,19 +46,24 @@ const userTableBody = document.getElementById('main__table-content');
 
 // get collection "users"
 getDocs(usersRef)
+
     .then((snapshot) => {
+
 
         snapshot.docs.forEach((doc) => {
 
             const userData = doc.data();
             const tr = document.createElement('tr');
+            tr.className = 'user-data-table'
 
 
             const checkboxTd = document.createElement('td');
             checkboxTd.innerHTML = '<input type="checkbox" name="" id="">';
 
-            const imgTd = document.createElement('td');
-            imgTd.innerHTML = '<img src="" alt="">';
+            const buttonTd = document.createElement('td');
+            buttonTd.className = 'table-button'
+            buttonTd.innerHTML = '<button class="table-button-arrow"><img src="img/Icon/arrow.svg" alt="arrow"></button> ';
+            buttonTd.addEventListener('click', toggleTableUserInfo);
 
             const nameTd = document.createElement('td');
             nameTd.className = 'table-name';
@@ -91,7 +99,7 @@ getDocs(usersRef)
             menuDotsTd.innerHTML = '<button class="table-menu-dots-button">Dots</button>';
 
             tr.appendChild(checkboxTd);
-            tr.appendChild(imgTd);
+            tr.appendChild(buttonTd);
             tr.appendChild(nameTd);
             tr.appendChild(emailTd);
             tr.appendChild(userStatusTd);
@@ -102,11 +110,58 @@ getDocs(usersRef)
             tr.appendChild(menuDotsTd);
             userTableBody.appendChild(tr);
 
+
         })
         displayRows(tableRows, currentPage, rowsPerPage);
+
     });
 
+//User info section
+function toggleTableUserInfo(event, userInfo = { userInfoDate: new Date().toDateString(), userInfoActivity: 'User Activity', userInfoDetail: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies.' }) {
+    const buttonTd = event.currentTarget;
+    const tableRow = buttonTd.parentNode;
+    const userInfoSection = tableRow.querySelector('.table-user-info');
 
+    if (userInfoSection) {
+        userInfoSection.remove();
+    } else {
+        const userInfoWrapper = document.createElement('div');
+        userInfoWrapper.className = 'table-user-info';
+
+        const userInfoDate = document.createElement('div');
+        userInfoDate.className = 'table-user-info-date';
+        userInfoDate.innerHTML = userInfo.userInfoDate;
+
+        const userInfoActivity = document.createElement('div');
+        userInfoActivity.className = 'table-user-info-activity';
+        userInfoActivity.innerHTML = userInfo.userInfoActivity;
+
+        const userInfoDetail = document.createElement('div');
+        userInfoDetail.className = 'table-user-info-detail';
+        userInfoDetail.innerHTML = userInfo.userInfoDetail;
+
+        userInfoWrapper.appendChild(userInfoDate);
+        userInfoWrapper.appendChild(userInfoActivity);
+        userInfoWrapper.appendChild(userInfoDetail);
+        tableRow.appendChild(userInfoWrapper);
+
+        const userId = tableRow.id;
+        const userRef = query(collection(db, 'users'));
+
+        getDocs(userRef)
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    const userData = doc.data();
+                    userInfoDate.innerHTML = userData.lastLoginDate;
+                    userInfoActivity.innerHTML = userData.userActivity;
+                    userInfoDetail.innerHTML = userData.userDetail;
+                });
+            })
+            .catch((error) => {
+                console.log('No records found', error);
+            });
+    }
+}
 
 
 
@@ -326,27 +381,6 @@ filterButton.addEventListener('click', () => {
 
 //Menu dots
 
-const menuDotsButton = document.querySelector('.table-menu-dots-button');
-
-const dropdownMenu = document.querySelector('.table-menu-dots-dropdown');
-
-
-menuDotsButton.addEventListener('click', (event) => {
-
-    event.preventDefault();
-
-
-    dropdownMenu.style.display = "block";
-});
-// 
-window.addEventListener('click', (event) => {
-    if (!event.target.matches('.table-menu-dots-button')) {
-        dropdownMenu.style.display = "none";
-    }
-});
-
-
-
 
 const menu = document.createElement('div');
 menu.classList.add('menu-dots-list');
@@ -375,21 +409,9 @@ deleteButton.textContent = 'Delete';
 deleteButton.classList.add('menu-dots-item');
 menu.appendChild(deleteButton);
 
-// dots Button
-tableBody.addEventListener('click', function (event) {
-    const targetRow = event.target.closest('tr');
-    const menuDotsTd = targetRow.querySelector('.table-menu-dots');
-
-    if (event.target.classList.contains('table-menu-dots-button') && menuDotsTd.contains(menu)) {
-        // Close menu
-        menuDotsTd.removeChild(menu);
-    } else {
-        // Open menu
-        menuDotsTd.appendChild(menu);
-    }
-});
 
 
+//Activate user
 activateUserButton.addEventListener('click', function () {
     const targetRow = event.target.closest('tr');
     const userStatus = targetRow.querySelector('.table-status');
@@ -400,3 +422,6 @@ activateUserButton.addEventListener('click', function () {
         userStatus.textContent = 'Inactive';
     }
 });
+
+
+
