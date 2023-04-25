@@ -46,8 +46,8 @@ const tableRows = tableBody.getElementsByTagName('tr');
 
 const rowsPerPageDropdown = document.querySelector('.footer-dropdown');
 const rowsPerPageOptions = [10, 20, 30];
-const rowsPerPageText = document.querySelector('.footer__text:first-child');///
-const rowsPerPageTotal = document.querySelector('.footer__text:last-child');///
+const rowsPerPageText = document.querySelector('.footer__text-pages');///
+const rowsPerPageTotal = document.querySelector('.footer__text');///
 
 const backButton = document.querySelector('.footer__button-arrow-forward');
 const forwardButton = document.querySelector('.footer__button-arrow');
@@ -123,6 +123,7 @@ getDocs(usersRef)
         })
 
         displayRows(tableRows, currentPage, rowsPerPage);
+
 
         //Menu dots
         tableBody.addEventListener('click', function (event) {
@@ -262,19 +263,14 @@ function displayRows(rows, page, perPage) {
             rows[i].style.display = '';
         }
     }
+    updateFooterText()
 }
 
 function updateFooterText() {
-    const start = (currentPage - 1) * rowsPerPage + 1;
-    const end = Math.min(start + rowsPerPage - 1, tableRows.length);
-
-    if (rowsPerPageText) {
-        rowsPerPageText.textContent = `Rows per page: ${rowsPerPage}`;
-    }
-
-    if (rowsPerPageTotal) {
-        rowsPerPageTotal.textContent = `${start}-${end} of ${tableRows.length}`;
-    }
+    const startRow = (currentPage - 1) * rowsPerPage + 1;
+    const endRow = startRow + rowsPerPage - 1 > tableRows.length ? tableRows.length : startRow + rowsPerPage - 1;
+    rowsPerPageText.textContent = `Rows per page: ${rowsPerPage}`;
+    rowsPerPageTotal.textContent = `${startRow}-${endRow} of ${tableRows.length} rows`;
 }
 
 // 
