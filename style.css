@@ -41,7 +41,6 @@
 }
 
 .table-menu-dots-dropdown {
-    display: none;
     /* visibility: hidden; */
     position: absolute;
     width: 160px;
@@ -52,10 +51,7 @@
     width: 300px;
     height: 100px;
 }
-.table-menu-dots-dropdown .show {
-    visibility: visible;
-    display: block;
-}
+
 .menu-dots-list {
     position: relative;
     display: flex;
@@ -71,7 +67,9 @@
     display: flex;
 }
 
-
+.table-menu-dots-dropdown button{
+    color: brown;
+}
 
 
 

@@ -1,8 +1,6 @@
 // Initialize Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
 import { getFirestore, orderBy, query, setDoc, collection, getDocs, addDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
-
-
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
@@ -22,7 +20,6 @@ const db = getFirestore();
 const usersRef = collection(db, 'users');
 
 //Add data
-
 // addDoc(usersRef, {
 //     email: 'example@email.com',
 //     name: 'Boris Yyyy',
@@ -44,12 +41,23 @@ const usersRef = collection(db, 'users');
 
 const userTableBody = document.getElementById('main__table-content');
 
+const tableBody = document.getElementById('main__table-content');
+const tableRows = tableBody.getElementsByTagName('tr');
+
+const rowsPerPageDropdown = document.querySelector('.footer-dropdown');
+const rowsPerPageOptions = [10, 20, 30];
+const rowsPerPageText = document.querySelector('.footer__text:first-child');///
+const rowsPerPageTotal = document.querySelector('.footer__text:last-child');///
+
+const backButton = document.querySelector('.footer__button-arrow-forward');
+const forwardButton = document.querySelector('.footer__button-arrow');
+let currentPage = 1;
+let rowsPerPage = 10;
+
 // get collection "users"
 getDocs(usersRef)
 
     .then((snapshot) => {
-
-
         snapshot.docs.forEach((doc) => {
 
             const userData = doc.data();
@@ -109,12 +117,82 @@ getDocs(usersRef)
             tr.appendChild(viewMoreTd);
             tr.appendChild(menuDotsTd);
             userTableBody.appendChild(tr);
-
-
         })
+
         displayRows(tableRows, currentPage, rowsPerPage);
 
+        //Menu dots
+        tableBody.addEventListener('click', function (event) {
+            const targetRow = event.target.closest('tr');
+            const menuDotsTd = targetRow.querySelector('.table-menu-dots');
+            const menu = targetRow.querySelector('.table-menu-dots-dropdown');
+
+            if (event.target.classList.contains('table-menu-dots-button') && menu) {
+                // Close menu
+                menu.remove();
+            } else if (menu) {
+                // Menu already exists
+                menu.remove();
+                menuDotsTd.appendChild(menu);
+            } else {
+                // Open menu
+                const newMenu = document.createElement('div');
+                newMenu.classList.add('table-menu-dots-dropdown');
+                menuDotsTd.appendChild(newMenu);
+                addButtonsToDropdownMenus();
+            }
+            window.addEventListener('click', (event) => {
+                if (!event.target.matches('.table-menu-dots-button')) {
+                    const dropdownMenu = document.querySelector('.table-menu-dots-dropdown');
+                    if (dropdownMenu) {
+                        dropdownMenu.remove();
+                    }
+                }
+            });
+        });
     });
+
+//Dropdown menu list in three dots
+function addButtonsToDropdownMenus() {
+    const dropdownMenus = document.querySelectorAll('.table-menu-dots-dropdown');
+
+    dropdownMenus.forEach(menu => {
+        const menuList = document.createElement('div')
+        menuList.classList.add('menu-dots-list');
+        menu.appendChild(menuList);
+
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
+        editButton.classList.add('menu-dots-item');
+        menuList.appendChild(editButton);
+
+        const viewProfileButton = document.createElement('button');
+        viewProfileButton.textContent = 'View Profile';
+        viewProfileButton.classList.add('menu-dots-item');
+        menuList.appendChild(viewProfileButton);
+
+        const activateUserButton = document.createElement('button');
+        activateUserButton.textContent = 'Activate User';
+        activateUserButton.classList.add('activate-user-menu-item');
+        menuList.appendChild(activateUserButton);
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.classList.add('menu-dots-item');
+        menuList.appendChild(deleteButton);
+
+        activateUserButton.addEventListener('click', function () {
+            const targetRow = event.target.closest('tr');
+            const userStatus = targetRow.querySelector('.table-status');
+
+            if (userStatus.textContent === 'Inactive') {
+                userStatus.textContent = 'Active';
+            } else {
+                userStatus.textContent = 'Inactive';
+            }
+        });
+    });
+}
 
 //User info section
 function toggleTableUserInfo(event, userInfo = { userInfoDate: new Date().toDateString(), userInfoActivity: 'User Activity', userInfoDetail: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies.' }) {
@@ -164,20 +242,6 @@ function toggleTableUserInfo(event, userInfo = { userInfoDate: new Date().toDate
 }
 
 
-
-const tableBody = document.getElementById('main__table-content');
-const tableRows = tableBody.getElementsByTagName('tr');
-
-const rowsPerPageDropdown = document.querySelector('.footer-dropdown');
-const rowsPerPageOptions = [10, 20, 30];
-const rowsPerPageText = document.querySelector('.footer__text:first-child');///
-const rowsPerPageTotal = document.querySelector('.footer__text:last-child');///
-
-const backButton = document.querySelector('.footer__button-arrow-forward');
-const forwardButton = document.querySelector('.footer__button-arrow');
-let currentPage = 1;
-let rowsPerPage = 10;
-
 // to show amount of strings
 function displayRows(rows, page, perPage) {
     const start = (page - 1) * perPage;
@@ -212,7 +276,7 @@ function updateTable() {
     updateFooterText();
 }
 
-//dropdown
+//dropdown numbers of strings
 rowsPerPageDropdown.addEventListener('click', () => {
     const dropdownMenu = rowsPerPageDropdown.nextElementSibling;
     dropdownMenu.innerHTML = '';
@@ -284,7 +348,7 @@ searchInput.addEventListener('keyup', (event) => {
     }
 });
 
-//Total amount of paid
+//Total amount of paid status
 const totalAmountPayment = document.querySelector('.payment__description span');
 
 let total = 0;
@@ -377,51 +441,3 @@ filterButton.addEventListener('click', () => {
     const filteredRows = filterTableRows();
     updateTableBody(filteredRows);
 });
-
-
-//Menu dots
-
-
-const menu = document.createElement('div');
-menu.classList.add('menu-dots-list');
-
-// Edit
-const editButton = document.createElement('button');
-editButton.textContent = 'Edit';
-editButton.classList.add('menu-dots-item');
-menu.appendChild(editButton);
-
-// View Profile
-const viewProfileButton = document.createElement('button');
-viewProfileButton.textContent = 'View Profile';
-viewProfileButton.classList.add('menu-dots-item');
-menu.appendChild(viewProfileButton);
-
-// Activate User
-const activateUserButton = document.createElement('button');
-activateUserButton.textContent = 'Activate User';
-activateUserButton.classList.add('activate-user-menu-item');
-menu.appendChild(activateUserButton);
-
-// Delete
-const deleteButton = document.createElement('button');
-deleteButton.textContent = 'Delete';
-deleteButton.classList.add('menu-dots-item');
-menu.appendChild(deleteButton);
-
-
-
-//Activate user
-activateUserButton.addEventListener('click', function () {
-    const targetRow = event.target.closest('tr');
-    const userStatus = targetRow.querySelector('.table-status');
-
-    if (userStatus.textContent === 'Inactive') {
-        userStatus.textContent = 'Active';
-    } else {
-        userStatus.textContent = 'Inactive';
-    }
-});
-
-
-
