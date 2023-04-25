@@ -3,11 +3,19 @@
     margin: 0;
     box-sizing: border-box;
 }
+.wrapper {
+    background: #f2f0f9;
+    height: 100vh;
+}
 .container {
     max-width: 1100px;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
+    background: #ffffff;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 15px 20px;
 }
 .main__table {
     display: flex;
@@ -25,20 +33,20 @@
 .user-data-table {
     /* display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr; */
-  display: flex;
-  flex-direction: column;
-  /* align-items: center;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center;
   justify-content: center; */
 }
-.user-data-table-content{
+.user-data-table-content {
     display: flex;
     justify-content: space-between;
 }
-.table-user-info{
+.table-user-info {
     display: flex;
     justify-content: center;
 }
-.table-user-info-list{
+.table-user-info-list {
     display: flex;
     justify-content: center;
 }
@@ -76,22 +84,71 @@
     box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.2);
     border-radius: 6px;
     width: 224px;
-
 }
 
-
-.table-menu-dots-dropdown button{
+.table-menu-dots-dropdown button {
     color: brown;
 }
 
-
-
-
 .info-section {
     display: none;
-  }
-  
-  .info-section.open {
+}
+
+.info-section.open {
     display: block;
-  }
-  
+}
+
+/* Header */
+
+.header {
+    padding-bottom: 1.3em;
+}
+.header__title {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #6e6893;
+    margin-bottom: 1.3em;
+}
+.header__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: solid 1px #c6c2de;
+}
+.header__tabs {
+}
+.tab {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: #6e6893;
+    border: none;
+    background: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+.tab:hover,
+.tab:active,
+.tab:focus {
+    color: #25213b;
+    text-decoration: underline;
+}
+.payment__description {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: #6e6893;
+}
+.payment__description span {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+    color: #6d5bd0;
+}

@@ -365,7 +365,7 @@ getDocs(usersRef).then((snapshot) => {
         }
     });
     console.log(total);
-    totalAmountPayment.textContent = total;
+    totalAmountPayment.textContent = `$` + total + ` `;
 });
 
 
