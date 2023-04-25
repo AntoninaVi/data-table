@@ -64,6 +64,8 @@ getDocs(usersRef)
             const tr = document.createElement('tr');
             tr.className = 'user-data-table'
 
+            const rowContent = document.createElement('div');
+            rowContent.className = 'user-data-table-content'
 
             const checkboxTd = document.createElement('td');
             checkboxTd.innerHTML = '<input type="checkbox" name="" id="">';
@@ -106,16 +108,17 @@ getDocs(usersRef)
             menuDotsTd.className = 'table-menu-dots';
             menuDotsTd.innerHTML = '<button class="table-menu-dots-button">Dots</button>';
 
-            tr.appendChild(checkboxTd);
-            tr.appendChild(buttonTd);
-            tr.appendChild(nameTd);
-            tr.appendChild(emailTd);
-            tr.appendChild(userStatusTd);
-            tr.appendChild(paymentStatusTd);
-            tr.appendChild(userLastLogin);
-            tr.appendChild(amountTd);
-            tr.appendChild(viewMoreTd);
-            tr.appendChild(menuDotsTd);
+            rowContent.appendChild(checkboxTd);
+            rowContent.appendChild(buttonTd);
+            rowContent.appendChild(nameTd);
+            rowContent.appendChild(emailTd);
+            rowContent.appendChild(userStatusTd);
+            rowContent.appendChild(paymentStatusTd);
+            rowContent.appendChild(userLastLogin);
+            rowContent.appendChild(amountTd);
+            rowContent.appendChild(viewMoreTd);
+            rowContent.appendChild(menuDotsTd);
+            tr.appendChild(rowContent)
             userTableBody.appendChild(tr);
         })
 
@@ -197,14 +200,19 @@ function addButtonsToDropdownMenus() {
 //User info section
 function toggleTableUserInfo(event, userInfo = { userInfoDate: new Date().toDateString(), userInfoActivity: 'User Activity', userInfoDetail: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies.' }) {
     const buttonTd = event.currentTarget;
-    const tableRow = buttonTd.parentNode;
+    const tableRow = document.querySelector('.user-data-table');
     const userInfoSection = tableRow.querySelector('.table-user-info');
 
     if (userInfoSection) {
         userInfoSection.remove();
     } else {
+
+
         const userInfoWrapper = document.createElement('div');
         userInfoWrapper.className = 'table-user-info';
+
+        const userInfoList = document.createElement('div');
+        userInfoList.className = 'table-user-info-list';
 
         const userInfoDate = document.createElement('div');
         userInfoDate.className = 'table-user-info-date';
@@ -218,9 +226,10 @@ function toggleTableUserInfo(event, userInfo = { userInfoDate: new Date().toDate
         userInfoDetail.className = 'table-user-info-detail';
         userInfoDetail.innerHTML = userInfo.userInfoDetail;
 
-        userInfoWrapper.appendChild(userInfoDate);
-        userInfoWrapper.appendChild(userInfoActivity);
-        userInfoWrapper.appendChild(userInfoDetail);
+        userInfoWrapper.appendChild(userInfoList)
+        userInfoList.appendChild(userInfoDate);
+        userInfoList.appendChild(userInfoActivity);
+        userInfoList.appendChild(userInfoDetail);
         tableRow.appendChild(userInfoWrapper);
 
         const userId = tableRow.id;
