@@ -72,7 +72,7 @@ getDocs(usersRef)
 
             const buttonTd = document.createElement('td');
             buttonTd.className = 'table-button'
-            buttonTd.innerHTML = '<button class="table-button-arrow"><img src="img/Icon/arrow.svg" alt="arrow"></button> ';
+            buttonTd.innerHTML = '<button class="table-button-arrow"><img src="img/arrow.svg" alt="arrow"></button> ';
             buttonTd.addEventListener('click', toggleTableUserInfo);
 
             const nameTd = document.createElement('td');
@@ -443,6 +443,8 @@ function updateTableBody(filteredRows) {
 }
 // Handle filter button click event
 filterButton.addEventListener('click', () => {
+    const filterMenu = document.querySelector('.filter-menu');
+    filterMenu.classList.toggle('show');
     const filteredRows = filterTableRows();
     updateTableBody(filteredRows);
-});
+    });
