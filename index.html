@@ -17,16 +17,16 @@
             <header class="header">
                 <h1 class="header__title">Table Heading</h1>
                 <div class="header__content">
-                <div class="header__tabs">
-                    <button id="tabAll" class="tab">All</button>
-                    <button id="tabPaid" class="tab">Paid</button>
-                    <button id="tabUnpaid" class="tab">Unpaid</button>
-                    <button id="tabOverdue" class="tab">Overdue</button>
+                    <div class="header__tabs">
+                        <button id="tabAll" class="tab">All</button>
+                        <button id="tabPaid" class="tab">Paid</button>
+                        <button id="tabUnpaid" class="tab">Unpaid</button>
+                        <button id="tabOverdue" class="tab">Overdue</button>
+                    </div>
+                    <div class="header__payment">
+                        <p class="payment__description">Total payable amount: <span></span>USD</p>
+                    </div>
                 </div>
-                <div class="header__payment">
-                    <p class="payment__description">Total payable amount: <span></span>USD</p>
-                </div>
-            </div>
             </header>
             <main class="main">
                 <div class="main__options">
@@ -50,12 +50,15 @@
                             </div>
                         </div>
                         <div class="main__search">
-                            <input type="text" id="search-input" class="search-input" placeholder="Search Users by Name, Email or Date">
+                            <img class="search-input-img" src="img/search.svg" alt="">
+                            <input type="text" id="search-input" class="search-input"
+                                placeholder="Search Users by Name, Email or Date">
+
                         </div>
                     </div>
                     <button class="main__options-button">Pay Dues</button>
                 </div>
-               
+
                 <table class="main__table">
                     <tr class="main__table-heading">
                         <th class="table-checkbox"><input type="checkbox" name="" id=""></th>
@@ -80,10 +83,15 @@
                 </table>
             </main>
             <footer class="footer">
-                <p class="footer__text">Rows per page: 10</p> <button class="footer-dropdown">dropdown</button>
-                <p class="footer__text-pages">1-10 of 276</p>
-                <button class="footer__button-arrow-forward">назад</button>
-                <button class="footer__button-arrow">вперед</button>
+           
+              
+                    <p class="footer__text-pages"></p>
+                    <button class="footer-dropdown"></button>
+               
+                    <p class="footer__text"></p> 
+              
+                <button class="footer__button-arrow"></button>
+                <button class="footer__button-arrow-forward"></button>
             </footer>
         </div>
     </div>

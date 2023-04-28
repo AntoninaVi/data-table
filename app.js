@@ -201,8 +201,10 @@ function addButtonsToDropdownMenus() {
 //User info section
 function toggleTableUserInfo(event, userInfo = { userInfoDate: new Date().toDateString(), userInfoActivity: 'User Activity', userInfoDetail: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies.' }) {
     const buttonTd = event.currentTarget;
-    const tableRow = document.querySelector('.user-data-table');
+    const tableRow = buttonTd.closest('tr');
+
     const userInfoSection = tableRow.querySelector('.table-user-info');
+
 
     if (userInfoSection) {
         userInfoSection.remove();
@@ -232,6 +234,7 @@ function toggleTableUserInfo(event, userInfo = { userInfoDate: new Date().toDate
         userInfoList.appendChild(userInfoActivity);
         userInfoList.appendChild(userInfoDetail);
         tableRow.appendChild(userInfoWrapper);
+       
 
         const userId = tableRow.id;
         const userRef = query(collection(db, 'users'));
