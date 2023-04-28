@@ -22,12 +22,12 @@ const usersRef = collection(db, 'users');
 //Add data
 // addDoc(usersRef, {
 //     email: 'example@email.com',
-//     name: 'Boris Yyyy',
+//     name: 'Phillip Saris',
 //     userStatus: 'Inactive',
 //     lastLoginDate: new Date().toDateString(),
-//     paymentStatus: 'Unpaid',
-//     paymentDate: new Date(),
-//     paymentAmount: 500,
+//     paymentStatus: 'Overdue',
+//     paymentDate: new Date().toDateString(),
+//     paymentAmount: 100,
 //     userActivity: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies.',
 //     userDetail: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Rhoncus, sed purus eu semper morbi id nunc, adipiscing vitae. Ultricies suspendisse vestibulum.'
 // })
@@ -83,39 +83,64 @@ getDocs(usersRef)
             emailTd.className = 'table-email';
             emailTd.textContent = userData.email;
 
+            const nameEmailDiv = document.createElement('div');
+            nameEmailDiv.className = 'name-email-group';
+            nameEmailDiv.appendChild(nameTd);
+            nameEmailDiv.appendChild(emailTd);
 
             const userStatusTd = document.createElement('td');
             userStatusTd.className = 'table-status';
             userStatusTd.textContent = userData.userStatus;
 
+            const userLastLogin = document.createElement('td');
+            userLastLogin.className = 'table-last-login';
+            userLastLogin.textContent = userData.lastLoginDate;
+
+            const statusLastLoginDiv = document.createElement('div');
+            statusLastLoginDiv.className = 'status-last-login-group';
+            statusLastLoginDiv.appendChild(userStatusTd);
+            statusLastLoginDiv.appendChild(userLastLogin);
+
             const paymentStatusTd = document.createElement('td');
             paymentStatusTd.className = 'table-payment';
             paymentStatusTd.textContent = userData.paymentStatus;
 
-            const userLastLogin = document.createElement('td');
-            userLastLogin.className = 'table-last-login';
-            userLastLogin.textContent = userData.userLastLogin;
+            const paymentDateTd = document.createElement('td');
+            paymentDateTd.className = 'payment-date';
+            paymentDateTd.textContent = userData.paymentDate;
+
+            const paymentGroupDiv = document.createElement('div');
+            paymentGroupDiv.className = 'payment-group';
+            paymentGroupDiv.appendChild(paymentStatusTd);
+            paymentGroupDiv.appendChild(paymentDateTd);
 
             const amountTd = document.createElement('td');
             amountTd.className = 'table-amount';
             amountTd.textContent = `$${userData.paymentAmount}`;
 
+            const usdText = document.createElement('div');
+            usdText.className = 'usd-text';
+            usdText.textContent = 'usd';
+
+            const amountGroupDiv = document.createElement('div');
+            amountGroupDiv.className = 'amount-group';
+            amountGroupDiv.appendChild(amountTd);
+            amountGroupDiv.appendChild(usdText);
+
             const viewMoreTd = document.createElement('td');
             viewMoreTd.className = 'table-more';
-            viewMoreTd.innerHTML = '<button>View More</button>';
+            viewMoreTd.innerHTML = '<button class="table-more-button">View More</button>';
 
             const menuDotsTd = document.createElement('td');
             menuDotsTd.className = 'table-menu-dots';
-            menuDotsTd.innerHTML = '<button class="table-menu-dots-button">Dots</button>';
+            menuDotsTd.innerHTML = '<button class="table-menu-dots-button"></button>';
 
             rowContent.appendChild(checkboxTd);
             rowContent.appendChild(buttonTd);
-            rowContent.appendChild(nameTd);
-            rowContent.appendChild(emailTd);
-            rowContent.appendChild(userStatusTd);
-            rowContent.appendChild(paymentStatusTd);
-            rowContent.appendChild(userLastLogin);
-            rowContent.appendChild(amountTd);
+            rowContent.appendChild(nameEmailDiv);
+            rowContent.appendChild(statusLastLoginDiv);
+            rowContent.appendChild(paymentGroupDiv);
+            rowContent.appendChild(amountGroupDiv);
             rowContent.appendChild(viewMoreTd);
             rowContent.appendChild(menuDotsTd);
             tr.appendChild(rowContent)
