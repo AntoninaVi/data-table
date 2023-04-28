@@ -11,6 +11,7 @@ body {
     background: #f2f0f9;
     padding-top: 4em;
     padding-bottom: 4em;
+    height: 150vh;
 }
 .container {
     max-width: 1100px;
@@ -62,8 +63,12 @@ body {
 .tab:active,
 .tab:focus {
     color: #25213b;
-    text-decoration: underline;
+    border-bottom: 2px solid #25213b;
+    padding-bottom: 11px;
+    margin-bottom: -11px;
+    transition: ease-out 0.2s;
 }
+
 .payment__description {
     font-family: "Inter";
     font-style: normal;
@@ -131,12 +136,27 @@ body {
     max-height: 1.8em;
 }
 .table-user-info {
-    display: flex;
-    justify-content: center;
+    background: #f4f2ff;
+    padding: 0.8em 0;
+    margin-top: 1em;
+    margin-bottom: -0.8em;
 }
 .table-user-info-list {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10em, 23em));
     justify-content: center;
+    align-items: center;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #25213b;
+}
+.table-user-info-date {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: 0.05em;
+    color: #6e6893;
 }
 .table-button-arrow {
     width: 1em;
@@ -145,38 +165,76 @@ body {
     border: none;
     cursor: pointer;
 }
+.arrow-flipped{
+    transform: rotate(180deg);
+}
 
 .table-menu-dots-button {
     display: block;
 }
 
 .table-menu-dots-dropdown {
-    /* visibility: hidden; */
     position: absolute;
-    width: 160px;
-    background-color: #555;
-    color: rgb(201, 23, 23);
-    text-align: center;
-    border-radius: 6px;
-    width: 300px;
-    height: 100px;
+    right: 18%;
 }
 
 .menu-dots-list {
     position: relative;
     display: flex;
     flex-direction: column;
-    background: #ffffff;
-    border: 1px solid #c6c2de;
-    box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.2);
     border-radius: 6px;
-    width: 224px;
+    width: 9.7em;
+    height: 8.3em;
+    z-index: 2;
+    background: #ffffff;
+    padding: 10px 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+.menu-dots-list-close {
+    position: absolute;
+    top: -11px;
+    right: -9px;
+    background-image: url(img/close.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #ffffff;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #e5e5e5;
+    border-radius: 50%;
+    padding: 7px;
+    cursor: pointer;
 }
 
-.table-menu-dots-dropdown button {
-    color: brown;
+.menu-dots-item,
+.activate-user-menu-item {
+    max-height: 1.2em;
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: 0.05em;
+    color: #25213b;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    padding: 14px 5px;
 }
-
+.activate-user-menu-item {
+    color: #007f00;
+    border-bottom: 1px solid #f2f0f9;
+}
+.table-menu-dots-dropdown button:last-of-type {
+    color: #d30000;
+}
+.menu-dots-item:hover,
+.activate-user-menu-item:hover {
+    background: #f2f0f9;
+    border-radius: 4px;
+    transition: ease-in 0.3s;
+}
 .info-section {
     display: none;
 }
@@ -243,6 +301,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 5px 6px;
     font-style: normal;
     font-weight: 500;
     font-size: 12px;
@@ -274,14 +333,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 5px 6px;
     font-weight: 500;
     font-size: 12px;
     line-height: 15px;
     background: #e6e6f2;
     border-radius: 10px;
-    width: 5.3em;
     max-height: 1.8em;
     margin-bottom: 5px;
+    color: #007F00;
+    background: #CDFFCD;
 }
 .table-payment::before {
     content: "";
@@ -326,7 +387,7 @@ body {
     background-color: transparent;
     border: none;
 }
-.table-menu-dots-button{
+.table-menu-dots-button {
     background-image: url(img/dots.svg);
     background-repeat: no-repeat;
     background-position: center;
@@ -342,7 +403,7 @@ body {
     align-items: center;
 }
 .filter-button {
-padding: 0.6em 0.6em 0.6em 2em;
+    padding: 0.6em 0.6em 0.6em 2em;
     font-weight: 400;
     font-size: 16px;
     line-height: 19px;
@@ -442,6 +503,7 @@ padding: 0.6em 0.6em 0.6em 2em;
 .footer__text {
     margin-right: 3.1em;
 }
+
 .footer__button-arrow {
     width: 6px;
     height: 10px;

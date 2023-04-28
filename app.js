@@ -72,7 +72,7 @@ getDocs(usersRef)
 
             const buttonTd = document.createElement('td');
             buttonTd.className = 'table-button'
-            buttonTd.innerHTML = '<button class="table-button-arrow"><img src="img/arrow.svg" alt="arrow"></button> ';
+            buttonTd.innerHTML = '<button class="table-button-arrow"><img class="table-button-arrow-img" src="img/arrow.svg" alt="arrow"></button> ';
             buttonTd.addEventListener('click', toggleTableUserInfo);
 
             const nameTd = document.createElement('td');
@@ -91,6 +91,10 @@ getDocs(usersRef)
             const userStatusTd = document.createElement('td');
             userStatusTd.className = 'table-status';
             userStatusTd.textContent = userData.userStatus;
+            if (userStatusTd.textContent === 'Inactive') {
+                userStatusTd.style.color = '#6E6893';
+                userStatusTd.style.background = '#F2F0F9';
+            }
 
             const userLastLogin = document.createElement('td');
             userLastLogin.className = 'table-last-login';
@@ -104,6 +108,13 @@ getDocs(usersRef)
             const paymentStatusTd = document.createElement('td');
             paymentStatusTd.className = 'table-payment';
             paymentStatusTd.textContent = userData.paymentStatus;
+            if (paymentStatusTd.textContent === 'Unpaid') {
+                paymentStatusTd.style.color = '#965E00';
+                paymentStatusTd.style.backgroundColor = '#FFECCC';
+            } else if (paymentStatusTd.textContent === 'Overdue') {
+                paymentStatusTd.style.color = '#D30000';
+                paymentStatusTd.style.backgroundColor = '#FFE0E0';
+            }
 
             const paymentDateTd = document.createElement('td');
             paymentDateTd.className = 'payment-date';
@@ -190,6 +201,10 @@ function addButtonsToDropdownMenus() {
         menuList.classList.add('menu-dots-list');
         menu.appendChild(menuList);
 
+        const closeButton = document.createElement('button')
+        closeButton.classList.add('menu-dots-list-close')
+        menuList.appendChild(closeButton)
+
         const editButton = document.createElement('button');
         editButton.textContent = 'Edit';
         editButton.classList.add('menu-dots-item');
@@ -210,14 +225,18 @@ function addButtonsToDropdownMenus() {
         deleteButton.classList.add('menu-dots-item');
         menuList.appendChild(deleteButton);
 
-        activateUserButton.addEventListener('click', function () {
+        activateUserButton.addEventListener('click', function (event) {
             const targetRow = event.target.closest('tr');
             const userStatus = targetRow.querySelector('.table-status');
 
             if (userStatus.textContent === 'Inactive') {
                 userStatus.textContent = 'Active';
+                userStatus.style.color = '#4a4aff';
+                userStatus.style.backgroundColor = '#e6e6f2';
             } else {
                 userStatus.textContent = 'Inactive';
+                userStatus.style.color = '#6E6893';
+                userStatus.style.backgroundColor = '#F2F0F9';
             }
         });
     });
@@ -227,6 +246,8 @@ function addButtonsToDropdownMenus() {
 function toggleTableUserInfo(event, userInfo = { userInfoDate: new Date().toDateString(), userInfoActivity: 'User Activity', userInfoDetail: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies.' }) {
     const buttonTd = event.currentTarget;
     const tableRow = buttonTd.closest('tr');
+    const buttonTdArrow = buttonTd.querySelector('img');
+    buttonTdArrow.classList.toggle('arrow-flipped');
 
     const userInfoSection = tableRow.querySelector('.table-user-info');
 
@@ -259,7 +280,7 @@ function toggleTableUserInfo(event, userInfo = { userInfoDate: new Date().toDate
         userInfoList.appendChild(userInfoActivity);
         userInfoList.appendChild(userInfoDetail);
         tableRow.appendChild(userInfoWrapper);
-       
+
 
         const userId = tableRow.id;
         const userRef = query(collection(db, 'users'));
@@ -475,4 +496,4 @@ filterButton.addEventListener('click', () => {
     filterMenu.classList.toggle('show');
     const filteredRows = filterTableRows();
     updateTableBody(filteredRows);
-    });
+});
