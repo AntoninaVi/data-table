@@ -36,18 +36,22 @@
                         <div class="filter-menu">
                             <div class="filter-menu__sort">
                                 <h3>Sort by:</h3>
-                                <label><input type="radio" name="sort" value="default" checked>Default</label>
-                                <label><input type="radio" name="sort" value="firstName">First Name</label>
-                                <label><input type="radio" name="sort" value="lastName">Last Name</label>
-                                <label><input type="radio" name="sort" value="dueDate">Due Date</label>
-                                <label><input type="radio" name="sort" value="lastLogin">Last Login</label>
+                                <div class="filter-menu__sort-list">
+                                    <label>Default</label><input type="radio" name="sort" value="default" checked>
+                                    <label>First Name</label><input type="radio" name="sort" value="firstName">
+                                    <label>Last Name</label><input type="radio" name="sort" value="lastName">
+                                    <label>Due Date</label><input type="radio" name="sort" value="dueDate">
+                                    <label>Last Login</label><input type="radio" name="sort" value="lastLogin">
+                            </div>
                             </div>
                             <div class="filter-menu__users">
                                 <h3>Users:</h3>
-                                <label><input type="radio" name="users" value="all" checked>All</label>
-                                <label><input type="radio" name="users" value="active">Active</label>
-                                <label><input type="radio" name="users" value="inactive">Inactive</label>
+                                <div class="filter-menu__users-list">
+                                <label>All</label> <input type="radio" name="users" value="all" checked>
+                                <label>Active</label> <input type="radio" name="users" value="active">
+                                <label>Inactive</label><input type="radio" name="users" value="inactive">
                             </div>
+                        </div>
                         </div>
                         <div class="main__search">
                             <img class="search-input-img" src="img/search.svg" alt="">
@@ -84,14 +88,14 @@
                 </table>
             </main>
             <footer class="footer">
-           
-              
-                    <p class="footer__text-pages"></p>
-                    <button class="footer-dropdown"></button>
-               
-                    <p class="footer__text"></p> 
-              
-              
+
+
+                <p class="footer__text-pages"></p>
+                <button class="footer-dropdown"></button>
+
+                <p class="footer__text"></p>
+
+
                 <button class="footer__button-arrow-forward"></button>
                 <button class="footer__button-arrow"></button>
             </footer>

@@ -165,7 +165,7 @@ body {
     border: none;
     cursor: pointer;
 }
-.arrow-flipped{
+.arrow-flipped {
     transform: rotate(180deg);
 }
 
@@ -175,7 +175,7 @@ body {
 
 .table-menu-dots-dropdown {
     position: absolute;
-    right: 18%;
+    right: 22%;
 }
 
 .menu-dots-list {
@@ -341,8 +341,8 @@ body {
     border-radius: 10px;
     max-height: 1.8em;
     margin-bottom: 5px;
-    color: #007F00;
-    background: #CDFFCD;
+    color: #007f00;
+    background: #cdffcd;
 }
 .table-payment::before {
     content: "";
@@ -422,6 +422,7 @@ body {
     position: absolute;
     top: 13.8em;
     z-index: 1;
+    padding: 1.3em;
     width: 14em;
     height: 19em;
     background: #ffffff;
@@ -432,9 +433,14 @@ body {
 .filter-menu.show {
     display: block;
 }
-.filter-menu__sort,
-.filter-menu__users {
+.filter-menu__sort-list,
+.filter-menu__users-list {
     display: grid;
+    grid-template-columns: 10em 2em;
+}
+.filter-menu__sort-list label:last-of-type{
+    padding-bottom: 0.6em;
+    border-bottom: 1px solid #F2F0F9;
 }
 .filter-menu h3 {
     font-weight: 400;
@@ -443,6 +449,7 @@ body {
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: #6e6893;
+    margin-bottom: 0.6em;
 }
 .filter-menu label {
     font-weight: 400;
@@ -450,7 +457,38 @@ body {
     line-height: 17px;
     letter-spacing: 0.05em;
     color: #25213b;
+    margin-bottom: 0.6em;
 }
+input[type="radio"] {
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border: 1.5px solid #8b83ba;
+    content: none;
+    /* outline: none; */
+    margin: 0;
+    border-radius: 50%;
+    cursor: pointer;
+}
+input[type="radio"]:checked {
+    appearance: none;
+    outline: none;
+    padding: 0;
+    content: none;
+    background-color: #8b83ba;
+}
+input[type="radio"]::before{
+    content: '';
+    display: block;
+    position: relative;
+    top: 4px;
+    left: 0.3em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: #ffffff;
+}
+
 .search-input {
     width: 24.5em;
     padding: 1em 0 1em 3em;
