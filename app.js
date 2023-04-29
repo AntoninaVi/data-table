@@ -100,7 +100,11 @@ getDocs(usersRef)
 
             const userLastLogin = document.createElement('td');
             userLastLogin.className = 'table-last-login';
-            userLastLogin.textContent = 'Last login: ' + userData.lastLoginDate;
+            const date = new Date(userData.lastLoginDate);
+            const day = date.getDate();
+            const month = date.toLocaleString('default', { month: 'short' }).toUpperCase();
+            const year = date.getFullYear();
+            userLastLogin.textContent = `Last login: ${day}/${month}/${year}`;
 
             const statusLastLoginDiv = document.createElement('div');
             statusLastLoginDiv.className = 'status-last-login-group';
@@ -122,7 +126,7 @@ getDocs(usersRef)
 
             const paymentDateTd = document.createElement('td');
             paymentDateTd.className = 'table-payment-date';
-            paymentDateTd.textContent = 'Paid on ' + userData.paymentDate;
+            paymentDateTd.textContent = `Paid on: ${day}/${month}/${year}`;
 
             const paymentGroupDiv = document.createElement('div');
             paymentGroupDiv.className = 'payment-group';
@@ -282,10 +286,14 @@ function toggleTableUserInfo(event, userInfo = { userInfoDate: new Date().toDate
         userInfoWrapper.appendChild(userInfoListTitle);
         
 
-
         const userInfoDate = document.createElement('div');
         userInfoDate.className = 'table-user-info-date';
-        userInfoDate.innerHTML = userInfo.userInfoDate;
+        const date = new Date(userInfo.userInfoDate);
+        const day = date.getDate();
+        const month = date.toLocaleString('default', { month: 'short' }).toUpperCase();
+        const year = date.getFullYear();
+        userInfoDate.textContent = `${day}/${month}/${year}`;
+
 
         const userInfoActivity = document.createElement('div');
         userInfoActivity.className = 'table-user-info-activity';
