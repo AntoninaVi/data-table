@@ -256,12 +256,26 @@ function toggleTableUserInfo(event, userInfo = { userInfoDate: new Date().toDate
         userInfoSection.remove();
     } else {
 
-
         const userInfoWrapper = document.createElement('div');
         userInfoWrapper.className = 'table-user-info';
 
         const userInfoList = document.createElement('div');
         userInfoList.className = 'table-user-info-list';
+
+        const userInfoListTitle = document.createElement('div')
+        userInfoListTitle.className = 'table-user-info-list-titles'
+        const userInfoListTitleDate = document.createElement('h3');
+        userInfoListTitleDate.innerHTML = 'date';
+        const userInfoListTitleActivity = document.createElement('h3');
+        userInfoListTitleActivity.innerHTML = 'user activity';
+        const userInfoListTitleDetail = document.createElement('h3');
+        userInfoListTitleDetail.innerHTML = 'detail';
+        userInfoListTitle.appendChild(userInfoListTitleDate);
+        userInfoListTitle.appendChild(userInfoListTitleActivity);
+        userInfoListTitle.appendChild(userInfoListTitleDetail);
+        userInfoWrapper.appendChild(userInfoListTitle);
+        
+
 
         const userInfoDate = document.createElement('div');
         userInfoDate.className = 'table-user-info-date';

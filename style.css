@@ -119,15 +119,11 @@ body {
     padding: 0 1.3em;
 }
 .user-data-table {
-    /* display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr; */
     display: flex;
     flex-direction: column;
     border-top: 1px solid #d9d5ec;
     border-bottom: 1px solid #d9d5ec;
     padding: 0.8em 0;
-    /* align-items: center;
-  justify-content: center; */
 }
 .user-data-table-content {
     display: flex;
@@ -137,20 +133,63 @@ body {
 }
 .table-user-info {
     background: #f4f2ff;
-    padding: 0.8em 0;
+    padding: 0 0.8em 0;
     margin-top: 1em;
     margin-bottom: -0.8em;
 }
+.table-user-info-list-titles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10em, 27em));
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #6e6893;
+    background: #f2f0f9;
+    padding: 0.9em;
+    border-top: 1px solid #d9d5ec;
+    border-bottom: 1px solid #d9d5ec;
+}
+.table-user-info-list-titles h3:last-of-type::after {
+    content: url(img/detail.svg);
+    display: block;
+    position: relative;
+    top: -1.2em;
+    left: 4em;
+    width: 0.9em;
+    height: 0.9em;
+}
+
+.table-user-info-list-titles h3:last-of-type:hover::before {
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Feugiat eget.";
+    position: absolute;
+    z-index: 1;
+    width: 140px;
+    height: 118px;
+    padding: 10px;
+    background: #ffffff;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.15);
+    font-weight: 400;
+    font-size: 14px;
+    text-align: left;
+    color: #25213b;
+}
+
 .table-user-info-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(10em, 23em));
     justify-content: center;
     align-items: center;
+    padding: 12px 0;
     font-weight: 400;
     font-size: 14px;
     line-height: 17px;
     color: #25213b;
 }
+
 .table-user-info-date {
     font-weight: 400;
     font-size: 14px;
@@ -435,13 +474,14 @@ body {
 }
 .filter-menu__sort-list,
 .filter-menu__users-list {
-    display: grid;
-    grid-template-columns: 10em 2em;
+   display: flex;
+   flex-direction: column;
 }
-.filter-menu__sort-list label:last-of-type{
+.filter-menu__sort-list label:last-of-type {
     padding-bottom: 0.6em;
-    border-bottom: 1px solid #F2F0F9;
+    border-bottom: 1px solid #f2f0f9;
 }
+
 .filter-menu h3 {
     font-weight: 400;
     font-size: 12px;
@@ -452,12 +492,17 @@ body {
     margin-bottom: 0.6em;
 }
 .filter-menu label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
     font-weight: 400;
     font-size: 14px;
     line-height: 17px;
     letter-spacing: 0.05em;
     color: #25213b;
-    margin-bottom: 0.6em;
+    /* margin-bottom: 0.6em; */
+    border-radius: 4px;
 }
 input[type="radio"] {
     appearance: none;
@@ -465,7 +510,6 @@ input[type="radio"] {
     height: 15px;
     border: 1.5px solid #8b83ba;
     content: none;
-    /* outline: none; */
     margin: 0;
     border-radius: 50%;
     cursor: pointer;
@@ -477,17 +521,26 @@ input[type="radio"]:checked {
     content: none;
     background-color: #8b83ba;
 }
-input[type="radio"]::before{
-    content: '';
+input[type="radio"]:checked::before {
+    content: "";
     display: block;
     position: relative;
     top: 4px;
-    left: 0.3em;
+    left: 0.2rem;
     width: 5px;
     height: 5px;
     border-radius: 50%;
     background-color: #ffffff;
 }
+/* hover для label */
+label:hover {
+    background: #F2F0F9;
+  }
+  
+  /* hover для input при наведении на label */
+  label:hover + input[type="radio"] {
+    background: #F2F0F9;
+  }
 
 .search-input {
     width: 24.5em;
@@ -500,6 +553,10 @@ input[type="radio"]::before{
     color: #6e6893;
     border: none;
 }
+.search-input:focus {
+    outline: none;
+    border: 1px solid #6D5BD0;
+    }
 .search-input-img {
     position: relative;
     top: 0.3em;
