@@ -22,12 +22,12 @@ const usersRef = collection(db, 'users');
 //Add data
 // addDoc(usersRef, {
 //     email: 'example@email.com',
-//     name: 'Phillip Saris',
-//     userStatus: 'Inactive',
+//     name: 'Enrico Piras',
+//     userStatus: 'Overdue',
 //     lastLoginDate: new Date().toDateString(),
-//     paymentStatus: 'Overdue',
+//     paymentStatus: 'Paid',
 //     paymentDate: new Date().toDateString(),
-//     paymentAmount: 100,
+//     paymentAmount: 500,
 //     userActivity: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies.',
 //     userDetail: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Rhoncus, sed purus eu semper morbi id nunc, adipiscing vitae. Ultricies suspendisse vestibulum.'
 // })
@@ -92,8 +92,10 @@ getDocs(usersRef)
             userStatusTd.className = 'table-status';
             userStatusTd.textContent = userData.userStatus;
             if (userStatusTd.textContent === 'Inactive') {
-                userStatusTd.style.color = '#6E6893';
-                userStatusTd.style.background = '#F2F0F9';
+                // userStatusTd.style.color = '#6E6893';
+                // userStatusTd.style.background = '#F2F0F9';
+                userStatusTd.classList.add('inactive'); 
+
             }
 
             const userLastLogin = document.createElement('td');
@@ -109,15 +111,17 @@ getDocs(usersRef)
             paymentStatusTd.className = 'table-payment';
             paymentStatusTd.textContent = userData.paymentStatus;
             if (paymentStatusTd.textContent === 'Unpaid') {
-                paymentStatusTd.style.color = '#965E00';
-                paymentStatusTd.style.backgroundColor = '#FFECCC';
+                // paymentStatusTd.style.color = '#965E00';
+                // paymentStatusTd.style.backgroundColor = '#FFECCC';
+                paymentStatusTd.classList.add('unpaid');
             } else if (paymentStatusTd.textContent === 'Overdue') {
-                paymentStatusTd.style.color = '#D30000';
-                paymentStatusTd.style.backgroundColor = '#FFE0E0';
+                // paymentStatusTd.style.color = '#D30000';
+                // paymentStatusTd.style.backgroundColor = '#FFE0E0';
+                paymentStatusTd.classList.add('overdue');
             }
 
             const paymentDateTd = document.createElement('td');
-            paymentDateTd.className = 'payment-date';
+            paymentDateTd.className = 'table-payment-date';
             paymentDateTd.textContent = userData.paymentDate;
 
             const paymentGroupDiv = document.createElement('div');
@@ -233,10 +237,12 @@ function addButtonsToDropdownMenus() {
                 userStatus.textContent = 'Active';
                 userStatus.style.color = '#4a4aff';
                 userStatus.style.backgroundColor = '#e6e6f2';
+                
             } else {
                 userStatus.textContent = 'Inactive';
                 userStatus.style.color = '#6E6893';
                 userStatus.style.backgroundColor = '#F2F0F9';
+                
             }
         });
     });
@@ -472,14 +478,14 @@ function filterTableRows() {
                     value1 = row1.querySelector('.table-name').textContent.split(' ')[1];
                     value2 = row2.querySelector('.table-name').textContent.split(' ')[1];
                     break;
-                // case 'dueDate':
-                //     value1 = new Date(row1.querySelector('.table-due-date').textContent);
-                //     value2 = new Date(row2.querySelector('.table-due-date').textContent);/// to fix 
-                //     break;
-                // case 'lastLogin':
-                //     value1 = new Date(row1.querySelector('.table-last-login').textContent);
-                //     value2 = new Date(row2.querySelector('.table-last-login').textContent);
-                //     break;
+                case 'dueDate':
+                    value1 = new Date(row1.querySelector('.table-payment-date').textContent);
+                    value2 = new Date(row2.querySelector('.table-payment-date').textContent);/// to fix 
+                    break;
+                case 'lastLogin':
+                    value1 = new Date(row1.querySelector('.table-last-login').textContent);
+                    value2 = new Date(row2.querySelector('.table-last-login').textContent);
+                    break;
                 default:
                     return 0; // selectedSort === 'default'
             }

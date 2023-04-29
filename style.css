@@ -116,7 +116,6 @@ body {
 .main__table-content {
     display: flex;
     flex-direction: column;
-    padding: 0 1.3em;
 }
 .user-data-table {
     display: flex;
@@ -130,6 +129,7 @@ body {
     justify-content: space-between;
     align-items: center;
     max-height: 1.8em;
+    padding: 0 1.3em;
 }
 .table-user-info {
     background: #f4f2ff;
@@ -362,6 +362,14 @@ body {
     background: #4a4aff;
     border-radius: 50%;
 }
+.table-status.inactive {
+    color: #6e6893;
+    background: #f2f0f9;
+}
+.table-status.inactive::before {
+    background: #6e6893;
+}
+
 .table-last-login {
     font-weight: 500;
     font-size: 12px;
@@ -384,6 +392,7 @@ body {
     background: #cdffcd;
 }
 .table-payment::before {
+    /*Paid */
     content: "";
     display: block;
     position: relative;
@@ -391,10 +400,24 @@ body {
     left: -0.2em;
     width: 6px;
     height: 6px;
-    background: #ce8500;
+    background: #007f00;
     border-radius: 50%;
 }
-.payment-date {
+.table-payment.unpaid {
+    color: #965e00;
+    background-color: #ffeccc;
+}
+.table-payment.unpaid::before {
+    background: #ce8500;
+}
+.table-payment.overdue {
+    color: #d30000;
+    background-color: #ffe0e0;
+}
+.table-payment.overdue::before {
+    background: #D30000;;
+}
+.table-payment-date {
     font-weight: 500;
     font-size: 12px;
     line-height: 15px;
@@ -425,6 +448,14 @@ body {
     color: #6e6893;
     background-color: transparent;
     border: none;
+    padding: 5px 5px;
+    cursor: pointer;
+}
+.table-more-button:hover {
+    color: #6d5bd0;
+    background: #f2f0f9;
+    border-radius: 4px;
+    transition: ease-in-out 0.3s;
 }
 .table-menu-dots-button {
     background-image: url(img/dots.svg);
@@ -474,8 +505,8 @@ body {
 }
 .filter-menu__sort-list,
 .filter-menu__users-list {
-   display: flex;
-   flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 .filter-menu__sort-list label:last-of-type {
     padding-bottom: 0.6em;
@@ -534,13 +565,13 @@ input[type="radio"]:checked::before {
 }
 /* hover для label */
 label:hover {
-    background: #F2F0F9;
-  }
-  
-  /* hover для input при наведении на label */
-  label:hover + input[type="radio"] {
-    background: #F2F0F9;
-  }
+    background: #f2f0f9;
+}
+
+/* hover для input при наведении на label */
+label:hover + input[type="radio"] {
+    background: #f2f0f9;
+}
 
 .search-input {
     width: 24.5em;
@@ -555,8 +586,8 @@ label:hover {
 }
 .search-input:focus {
     outline: none;
-    border: 1px solid #6D5BD0;
-    }
+    border: 1px solid #6d5bd0;
+}
 .search-input-img {
     position: relative;
     top: 0.3em;
