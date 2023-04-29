@@ -427,9 +427,6 @@ body {
         max-width: 7em;
     }
 }
-/* .payment-group {
-    
-} */
 .amount-group {
     width: 10em;
 }
@@ -660,7 +657,6 @@ body {
     line-height: 17px;
     letter-spacing: 0.05em;
     color: #25213b;
-    /* margin-bottom: 0.6em; */
     border-radius: 4px;
 }
 input[type="radio"] {
@@ -691,12 +687,10 @@ input[type="radio"]:checked::before {
     border-radius: 50%;
     background-color: #ffffff;
 }
-/* hover для label */
+/* hover for label and input at the same time*/
 label:hover {
     background: #f2f0f9;
 }
-
-/* hover для input при наведении на label */
 label:hover + input[type="radio"] {
     background: #f2f0f9;
 }

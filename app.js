@@ -3,7 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase
 import { getFirestore, orderBy, query, setDoc, collection, getDocs, addDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
+//Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyDi4TutTz0vVYqkV3NCWqADIOf-JGQ-R00",
     authDomain: "data-table-fd59e.firebaseapp.com",
@@ -100,7 +100,7 @@ getDocs(usersRef)
 
             const userLastLogin = document.createElement('td');
             userLastLogin.className = 'table-last-login';
-            userLastLogin.textContent = userData.lastLoginDate;
+            userLastLogin.textContent = 'Last login: ' + userData.lastLoginDate;
 
             const statusLastLoginDiv = document.createElement('div');
             statusLastLoginDiv.className = 'status-last-login-group';
@@ -122,7 +122,7 @@ getDocs(usersRef)
 
             const paymentDateTd = document.createElement('td');
             paymentDateTd.className = 'table-payment-date';
-            paymentDateTd.textContent = userData.paymentDate;
+            paymentDateTd.textContent = 'Paid on ' + userData.paymentDate;
 
             const paymentGroupDiv = document.createElement('div');
             paymentGroupDiv.className = 'payment-group';
