@@ -19,7 +19,7 @@ initializeApp(firebaseConfig);
 const db = getFirestore();
 const usersRef = collection(db, 'users');
 
-//Add data
+//Add data to Firebase
 // addDoc(usersRef, {
 //     email: 'example@email.com',
 //     name: 'Enrico Piras',
@@ -54,7 +54,7 @@ const forwardButton = document.querySelector('.footer__button-arrow');
 let currentPage = 1;
 let rowsPerPage = 10;
 
-// get collection "users"
+// Get collection "users"
 getDocs(usersRef)
 
     .then((snapshot) => {
@@ -321,7 +321,7 @@ function toggleTableUserInfo(event, userInfo = { userInfoDate: new Date().toDate
 }
 
 
-// to show amount of strings
+// To show amount of strings
 function displayRows(rows, page, perPage) {
     const start = (page - 1) * perPage;
     const end = start + perPage;
@@ -350,7 +350,7 @@ function updateTable() {
     updateFooterText();
 }
 
-//dropdown numbers of strings
+//Dropdown numbers of strings
 rowsPerPageDropdown.addEventListener('click', () => {
     const dropdownMenu = rowsPerPageDropdown.nextElementSibling;
     dropdownMenu.innerHTML = '';
@@ -443,7 +443,7 @@ const filterButton = document.querySelector('.filter-button');
 const sortRadioButtons = document.querySelectorAll('[name="sort"]');
 const usersRadioButtons = document.querySelectorAll('[name="users"]');
 
-// selected sort and users radio buttons
+//Selected sort and users radio buttons
 function getSelectedSort() {
     return Array.from(sortRadioButtons).find(radio => radio.checked).value;
 }
@@ -465,7 +465,7 @@ function filterTableRows() {
             } else if (selectedUsers === 'inactive') {
                 return userStatus.toLowerCase() === 'inactive';
             }
-            return true; // selectedUsers === 'all'
+            return true; // 'all'
         })
         .sort((row1, row2) => {
             let value1, value2;
@@ -480,14 +480,14 @@ function filterTableRows() {
                     break;
                 case 'dueDate':
                     value1 = new Date(row1.querySelector('.table-payment-date').textContent);
-                    value2 = new Date(row2.querySelector('.table-payment-date').textContent);/// to fix 
+                    value2 = new Date(row2.querySelector('.table-payment-date').textContent); 
                     break;
                 case 'lastLogin':
                     value1 = new Date(row1.querySelector('.table-last-login').textContent);
                     value2 = new Date(row2.querySelector('.table-last-login').textContent);
                     break;
                 default:
-                    return 0; // selectedSort === 'default'
+                    return 0; // 'default'
             }
             if (value1 < value2) {
                 return -1;

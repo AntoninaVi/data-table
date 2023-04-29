@@ -194,6 +194,7 @@ body {
 .user-data-table-content input[type="checkbox"] {
     margin-right: 1em;
 }
+/* List info when table-button-arrow clicked */
 .table-user-info {
     background: #f4f2ff;
     padding: 0 0.8em 0;
@@ -293,7 +294,7 @@ body {
 .table-menu-dots-button {
     display: block;
 }
-
+/* Menu when dot button clicked*/
 .table-menu-dots-dropdown {
     position: absolute;
     right: 23%;
@@ -303,7 +304,6 @@ body {
         right: 7%;
     }
 }
-
 .menu-dots-list {
     position: relative;
     display: flex;
@@ -360,13 +360,6 @@ body {
     background: #f2f0f9;
     border-radius: 4px;
     transition: ease-in 0.3s;
-}
-.info-section {
-    display: none;
-}
-
-.info-section.open {
-    display: block;
 }
 
 .main__options {
