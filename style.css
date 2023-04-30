@@ -305,11 +305,11 @@ body {
 /* Menu when dot button clicked*/
 .table-menu-dots-dropdown {
     position: absolute;
-    right: 23%;
+    right: 21%;
 }
 @media screen and (max-width: 1280px) {
     .table-menu-dots-dropdown {
-        right: 7%;
+        right: 5%;
     }
 }
 .menu-dots-list {
