@@ -211,6 +211,7 @@ function addButtonsToDropdownMenus() {
 
 
     dropdownMenus.forEach(menu => {
+        
         const menuList = document.createElement('div')
         menuList.classList.add('menu-dots-list');
         menu.appendChild(menuList);
@@ -247,17 +248,14 @@ function addButtonsToDropdownMenus() {
             const userId = targetRow.getAttribute('data-id');
 
             if (userStatus.textContent === 'Inactive') {
-                localStorage.setItem('userStatus', 'Active');
                 userStatus.style.color = '#4a4aff';
                 userStatus.style.backgroundColor = '#e6e6f2';
                 userStatus.textContent = 'Active';
                 localStorage.setItem(`user_${userId}_status`, 'active');
             } else {
                 userStatus.textContent = 'Inactive';
-                localStorage.setItem('userStatus', 'Inactive');
                 userStatus.classList.add('inactive')
                 localStorage.setItem(`user_${userId}_status`, 'inactive');
-
             }
             const storedStatus = localStorage.getItem(`user_${userId}_status`);
             if (storedStatus === 'active') {
@@ -269,9 +267,11 @@ function addButtonsToDropdownMenus() {
                 userStatus.classList.add('inactive')
                 userStatus.style.backgroundColor = '#F2F0F9';
             }
+            
         });
     });
 }
+
 
 //User info section
 function toggleTableUserInfo(event, userInfo = { userInfoDate: new Date().toDateString(), userInfoActivity: 'User Activity', userInfoDetail: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies.' }) {
