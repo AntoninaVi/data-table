@@ -608,7 +608,7 @@ body {
 .filter-menu {
     display: none;
     position: absolute;
-    top: 13.8em;
+    top: 9.8em;
     z-index: 1;
     padding: 1.3em;
     width: 14em;
@@ -630,7 +630,9 @@ body {
     padding-bottom: 0.6em;
     border-bottom: 1px solid #f2f0f9;
 }
-
+.filter-menu__users{
+    margin-top: 10px;
+}
 .filter-menu h3 {
     font-weight: 400;
     font-size: 12px;
@@ -673,8 +675,8 @@ input[type="radio"]:checked::before {
     content: "";
     display: block;
     position: relative;
-    top: 4px;
-    left: 0.2rem;
+    top: 0.3em;
+    left: 0.3em;
     width: 5px;
     height: 5px;
     border-radius: 50%;

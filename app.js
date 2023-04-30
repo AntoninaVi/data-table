@@ -23,7 +23,7 @@ const usersRef = collection(db, 'users');
 // addDoc(usersRef, {
 //     email: 'example@email.com',
 //     name: 'Enrico Piras',
-//     userStatus: 'Overdue',
+//     userStatus: 'Active',
 //     lastLoginDate: new Date().toDateString(),
 //     paymentStatus: 'Paid',
 //     paymentDate: new Date().toDateString(),
@@ -451,6 +451,7 @@ const filterButton = document.querySelector('.filter-button');
 const sortRadioButtons = document.querySelectorAll('[name="sort"]');
 const usersRadioButtons = document.querySelectorAll('[name="users"]');
 
+
 //Selected sort and users radio buttons
 function getSelectedSort() {
     return Array.from(sortRadioButtons).find(radio => radio.checked).value;
@@ -459,6 +460,8 @@ function getSelectedSort() {
 function getSelectedUsers() {
     return Array.from(usersRadioButtons).find(radio => radio.checked).value;
 }
+
+
 
 // Filter table rows 
 function filterTableRows() {
@@ -511,17 +514,30 @@ function filterTableRows() {
 
 // Update table body with filtered rows
 function updateTableBody(filteredRows) {
-    while (tableBody.firstChild) {
-        tableBody.removeChild(tableBody.firstChild);
-    }
+    // while (tableBody.firstChild) {
+    //     tableBody.removeChild(tableBody.firstChild);  //fix
+    // }
     filteredRows.forEach(row => {
         tableBody.appendChild(row);
     });
 }
-// Handle filter button click event
+//  Filter button 
 filterButton.addEventListener('click', () => {
     const filterMenu = document.querySelector('.filter-menu');
     filterMenu.classList.toggle('show');
-    const filteredRows = filterTableRows();
-    updateTableBody(filteredRows);
+});
+
+// sort radio button
+sortRadioButtons.forEach(radio => {
+    radio.addEventListener('click', () => {
+        const filteredRows = filterTableRows();
+        updateTableBody(filteredRows);
+    });
+});
+// users radio button
+usersRadioButtons.forEach(radio => {
+    radio.addEventListener('click', () => {
+        const filteredRows = filterTableRows();
+        updateTableBody(filteredRows);
+    });
 });
