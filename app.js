@@ -48,25 +48,12 @@ const tableRows = tableBody.getElementsByTagName('tr');
 const backButton = document.querySelector('.footer__button-arrow-forward');
 const forwardButton = document.querySelector('.footer__button-arrow');
 
-
-
 const rowsPerPageDropdown = document.querySelector('.footer-dropdown');
 const rowsPerPageOptions = [10, 20, 30];
 const rowsPerPageText = document.querySelector('.footer__text');
 const rowsPerPageTotal = document.querySelector('.footer__text-pages');
 let currentPage = 1;
 let rowsPerPage = 10;
-
-
-
-
-
-
-
-
-
-
-
 
 
 // Get collection "users"
@@ -165,9 +152,11 @@ getDocs(usersRef)
             viewMoreTd.className = 'table-more';
             viewMoreTd.innerHTML = '<button class="table-more-button">View More</button>';
 
+
             const menuDotsTd = document.createElement('td');
             menuDotsTd.className = 'table-menu-dots';
             menuDotsTd.innerHTML = '<button class="table-menu-dots-button"></button>';
+
 
             rowContent.appendChild(checkboxTd);
             rowContent.appendChild(buttonTd);
@@ -182,6 +171,7 @@ getDocs(usersRef)
         })
 
         displayRows(tableRows, currentPage, rowsPerPage);
+
 
 
         //Menu dots
@@ -219,6 +209,7 @@ getDocs(usersRef)
 function addButtonsToDropdownMenus() {
     const dropdownMenus = document.querySelectorAll('.table-menu-dots-dropdown');
 
+
     dropdownMenus.forEach(menu => {
         const menuList = document.createElement('div')
         menuList.classList.add('menu-dots-list');
@@ -243,27 +234,45 @@ function addButtonsToDropdownMenus() {
         activateUserButton.classList.add('activate-user-menu-item');
         menuList.appendChild(activateUserButton);
 
+
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.classList.add('menu-dots-item');
         menuList.appendChild(deleteButton);
 
+        //Activate user
         activateUserButton.addEventListener('click', function (event) {
             const targetRow = event.target.closest('tr');
             const userStatus = targetRow.querySelector('.table-status');
+            const userId = targetRow.getAttribute('data-id');
 
             if (userStatus.textContent === 'Inactive') {
-                userStatus.textContent = 'Active';
+                localStorage.setItem('userStatus', 'Active');
                 userStatus.style.color = '#4a4aff';
                 userStatus.style.backgroundColor = '#e6e6f2';
-
+                localStorage.setItem(`user_${userId}_status`, 'active');
             } else {
                 userStatus.textContent = 'Inactive';
+                localStorage.setItem('userStatus', 'Inactive');
                 userStatus.style.color = '#6E6893';
                 userStatus.style.backgroundColor = '#F2F0F9';
+                localStorage.setItem(`user_${userId}_status`, 'inactive');
 
             }
         });
+        const targetRow = activateUserButton.closest('tr');
+        const userId = targetRow.getAttribute('data-id');
+        const userStatus = targetRow.querySelector('.table-status');
+        const storedStatus = localStorage.getItem(`user_${userId}_status`);
+        if (storedStatus === 'active') {
+            userStatus.textContent = 'Active';
+            userStatus.style.color = '#4a4aff';
+            userStatus.style.backgroundColor = '#e6e6f2';
+        } else if (storedStatus === 'inactive') {
+            userStatus.textContent = 'Inactive';
+            userStatus.style.color = '#6E6893';
+            userStatus.style.backgroundColor = '#F2F0F9';
+        }
     });
 }
 
