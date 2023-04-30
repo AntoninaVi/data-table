@@ -44,15 +44,86 @@ const userTableBody = document.getElementById('main__table-content');
 const tableBody = document.getElementById('main__table-content');
 const tableRows = tableBody.getElementsByTagName('tr');
 
-const rowsPerPageDropdown = document.querySelector('.footer-dropdown');
-const rowsPerPageOptions = [10, 20, 30];
-const rowsPerPageText = document.querySelector('.footer__text-pages');///
-const rowsPerPageTotal = document.querySelector('.footer__text');///
 
 const backButton = document.querySelector('.footer__button-arrow-forward');
 const forwardButton = document.querySelector('.footer__button-arrow');
+
+
+
+const rowsPerPageDropdown = document.querySelector('.footer-dropdown');
+const rowsPerPageOptions = [10, 20, 30];
+const rowsPerPageText = document.querySelector('.footer__text');
+const rowsPerPageTotal = document.querySelector('.footer__text-pages');
 let currentPage = 1;
 let rowsPerPage = 10;
+
+// To show amount of strings
+function displayRows(rows, page, perPage) {
+    const start = (page - 1) * perPage;
+    const end = start + perPage;
+    for (let i = 0; i < rows.length; i++) {
+        if (i < start || i >= end) {
+            rows[i].style.display = 'none';
+        } else {
+            rows[i].style.display = '';
+        }
+    }
+    updateFooterText()
+}
+
+function updateFooterText() {
+    const tableBody = document.getElementById('main__table-content');
+    const tableRows = tableBody.getElementsByTagName('tr');
+    const startRow = (currentPage - 1) * rowsPerPage + 1;
+    const endRow = startRow + rowsPerPage - 1 > tableRows.length ? tableRows.length : startRow + rowsPerPage - 1;
+    rowsPerPageText.textContent = `Rows per page: ${rowsPerPage}`;
+    rowsPerPageTotal.textContent = `${startRow}-${endRow} of ${tableRows.length} rows`;
+}
+
+function updateTable() {
+    const tableBody = document.getElementById('main__table-content');
+    const tableRows = tableBody.getElementsByTagName('tr');
+    displayRows(tableRows, currentPage, rowsPerPage);
+    updateFooterText();
+}
+
+// Dropdown numbers of strings
+const dropdownMenu = rowsPerPageDropdown.nextElementSibling;
+dropdownMenu.style.display = 'none';
+rowsPerPageOptions.forEach(option => {
+    const listItem = document.createElement('li');
+    listItem.classList.add('footer__text-option');
+    listItem.textContent = option;
+    listItem.addEventListener('click', () => {
+        rowsPerPage = option;
+        currentPage = 1;
+        updateTable();
+        dropdownMenu.style.display = 'none';
+    });
+    dropdownMenu.appendChild(listItem);
+});
+
+// Close dropdown menu
+rowsPerPageDropdown.addEventListener('click', () => {
+    if (dropdownMenu.style.display === 'none') {
+        dropdownMenu.style.display = 'block';
+    } else {
+        dropdownMenu.style.display = 'none';
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Get collection "users"
 getDocs(usersRef)
@@ -94,7 +165,7 @@ getDocs(usersRef)
             if (userStatusTd.textContent === 'Inactive') {
                 // userStatusTd.style.color = '#6E6893';
                 // userStatusTd.style.background = '#F2F0F9';
-                userStatusTd.classList.add('inactive'); 
+                userStatusTd.classList.add('inactive');
 
             }
 
@@ -241,12 +312,12 @@ function addButtonsToDropdownMenus() {
                 userStatus.textContent = 'Active';
                 userStatus.style.color = '#4a4aff';
                 userStatus.style.backgroundColor = '#e6e6f2';
-                
+
             } else {
                 userStatus.textContent = 'Inactive';
                 userStatus.style.color = '#6E6893';
                 userStatus.style.backgroundColor = '#F2F0F9';
-                
+
             }
         });
     });
@@ -284,7 +355,7 @@ function toggleTableUserInfo(event, userInfo = { userInfoDate: new Date().toDate
         userInfoListTitle.appendChild(userInfoListTitleActivity);
         userInfoListTitle.appendChild(userInfoListTitleDetail);
         userInfoWrapper.appendChild(userInfoListTitle);
-        
+
 
         const userInfoDate = document.createElement('div');
         userInfoDate.className = 'table-user-info-date';
@@ -329,50 +400,6 @@ function toggleTableUserInfo(event, userInfo = { userInfoDate: new Date().toDate
 }
 
 
-// To show amount of strings
-function displayRows(rows, page, perPage) {
-    const start = (page - 1) * perPage;
-    const end = start + perPage;
-    for (let i = 0; i < rows.length; i++) {
-        if (i < start || i >= end) {
-            rows[i].style.display = 'none';
-        } else {
-            rows[i].style.display = '';
-        }
-    }
-    updateFooterText()
-}
-
-function updateFooterText() {
-    const startRow = (currentPage - 1) * rowsPerPage + 1;
-    const endRow = startRow + rowsPerPage - 1 > tableRows.length ? tableRows.length : startRow + rowsPerPage - 1;
-    rowsPerPageText.textContent = `Rows per page: ${rowsPerPage}`;
-    rowsPerPageTotal.textContent = `${startRow}-${endRow} of ${tableRows.length} rows`;
-}
-
-// 
-function updateTable() {
-    const tableBody = document.getElementById('main__table-content');
-    const tableRows = tableBody.getElementsByTagName('tr');
-    displayRows(tableRows, currentPage, rowsPerPage);
-    updateFooterText();
-}
-
-//Dropdown numbers of strings
-rowsPerPageDropdown.addEventListener('click', () => {
-    const dropdownMenu = rowsPerPageDropdown.nextElementSibling;
-    dropdownMenu.innerHTML = '';
-    rowsPerPageOptions.forEach(option => {
-        const listItem = document.createElement('option');
-        listItem.textContent = option;
-        listItem.addEventListener('click', () => {
-            rowsPerPage = option;
-            currentPage = 1;
-            updateTable();
-        });
-        dropdownMenu.appendChild(listItem);
-    });
-});
 
 backButton.addEventListener('click', () => {
     if (currentPage > 1) {
@@ -491,7 +518,7 @@ function filterTableRows() {
                     break;
                 case 'dueDate':
                     value1 = new Date(row1.querySelector('.table-payment-date').textContent);
-                    value2 = new Date(row2.querySelector('.table-payment-date').textContent); 
+                    value2 = new Date(row2.querySelector('.table-payment-date').textContent);
                     break;
                 case 'lastLogin':
                     value1 = new Date(row1.querySelector('.table-last-login').textContent);
