@@ -259,20 +259,17 @@ function addButtonsToDropdownMenus() {
                 localStorage.setItem(`user_${userId}_status`, 'inactive');
 
             }
+            const storedStatus = localStorage.getItem(`user_${userId}_status`);
+            if (storedStatus === 'active') {
+                userStatus.textContent = 'Active';
+                userStatus.style.color = '#4a4aff';
+                userStatus.style.backgroundColor = '#e6e6f2';
+            } else if (storedStatus === 'inactive') {
+                userStatus.textContent = 'Inactive';
+                userStatus.classList.add('inactive')
+                userStatus.style.backgroundColor = '#F2F0F9';
+            }
         });
-        const targetRow = activateUserButton.closest('tr');
-        const userId = targetRow.getAttribute('data-id');
-        const userStatus = targetRow.querySelector('.table-status');
-        const storedStatus = localStorage.getItem(`user_${userId}_status`);
-        if (storedStatus === 'active') {
-            userStatus.textContent = 'Active';
-            userStatus.style.color = '#4a4aff';
-            userStatus.style.backgroundColor = '#e6e6f2';
-        } else if (storedStatus === 'inactive') {
-            userStatus.textContent = 'Inactive';
-            userStatus.classList.add('inactive')
-            userStatus.style.backgroundColor = '#F2F0F9';
-        }
     });
 }
 
