@@ -57,62 +57,6 @@ const rowsPerPageTotal = document.querySelector('.footer__text-pages');
 let currentPage = 1;
 let rowsPerPage = 10;
 
-// To show amount of strings
-function displayRows(rows, page, perPage) {
-    const start = (page - 1) * perPage;
-    const end = start + perPage;
-    for (let i = 0; i < rows.length; i++) {
-        if (i < start || i >= end) {
-            rows[i].style.display = 'none';
-        } else {
-            rows[i].style.display = '';
-        }
-    }
-    updateFooterText()
-}
-
-function updateFooterText() {
-    const tableBody = document.getElementById('main__table-content');
-    const tableRows = tableBody.getElementsByTagName('tr');
-    const startRow = (currentPage - 1) * rowsPerPage + 1;
-    const endRow = startRow + rowsPerPage - 1 > tableRows.length ? tableRows.length : startRow + rowsPerPage - 1;
-    rowsPerPageText.textContent = `Rows per page: ${rowsPerPage}`;
-    rowsPerPageTotal.textContent = `${startRow}-${endRow} of ${tableRows.length} rows`;
-}
-
-function updateTable() {
-    const tableBody = document.getElementById('main__table-content');
-    const tableRows = tableBody.getElementsByTagName('tr');
-    displayRows(tableRows, currentPage, rowsPerPage);
-    updateFooterText();
-}
-
-// Dropdown numbers of strings
-const dropdownMenu = rowsPerPageDropdown.nextElementSibling;
-dropdownMenu.style.display = 'none';
-rowsPerPageOptions.forEach(option => {
-    const listItem = document.createElement('li');
-    listItem.classList.add('footer__text-option');
-    listItem.textContent = option;
-    listItem.addEventListener('click', () => {
-        rowsPerPage = option;
-        currentPage = 1;
-        updateTable();
-        dropdownMenu.style.display = 'none';
-    });
-    dropdownMenu.appendChild(listItem);
-});
-
-// Close dropdown menu
-rowsPerPageDropdown.addEventListener('click', () => {
-    if (dropdownMenu.style.display === 'none') {
-        dropdownMenu.style.display = 'block';
-    } else {
-        dropdownMenu.style.display = 'none';
-    }
-});
-
-
 
 
 
@@ -400,6 +344,62 @@ function toggleTableUserInfo(event, userInfo = { userInfoDate: new Date().toDate
 }
 
 
+// To show amount of strings
+function displayRows(rows, page, perPage) {
+    const start = (page - 1) * perPage;
+    const end = start + perPage;
+    for (let i = 0; i < rows.length; i++) {
+        if (i < start || i >= end) {
+            rows[i].style.display = 'none';
+        } else {
+            rows[i].style.display = '';
+        }
+    }
+    updateFooterText()
+}
+
+function updateFooterText() {
+    const tableBody = document.getElementById('main__table-content');
+    const tableRows = tableBody.getElementsByTagName('tr');
+    const startRow = (currentPage - 1) * rowsPerPage + 1;
+    const endRow = startRow + rowsPerPage - 1 > tableRows.length ? tableRows.length : startRow + rowsPerPage - 1;
+    rowsPerPageText.textContent = `Rows per page: ${rowsPerPage}`;
+    rowsPerPageTotal.textContent = `${startRow}-${endRow} of ${tableRows.length} rows`;
+}
+
+function updateTable() {
+    const tableBody = document.getElementById('main__table-content');
+    const tableRows = tableBody.getElementsByTagName('tr');
+    displayRows(tableRows, currentPage, rowsPerPage);
+    updateFooterText();
+}
+
+// Dropdown numbers of strings
+const dropdownMenu = rowsPerPageDropdown.nextElementSibling;
+dropdownMenu.style.display = 'none';
+rowsPerPageOptions.forEach(option => {
+    const listItem = document.createElement('li');
+    listItem.classList.add('footer__text-option');
+    listItem.textContent = option;
+    listItem.addEventListener('click', () => {
+        rowsPerPage = option;
+        currentPage = 1;
+        updateTable();
+        dropdownMenu.style.display = 'none';
+    });
+    dropdownMenu.appendChild(listItem);
+});
+
+// Close dropdown menu
+rowsPerPageDropdown.addEventListener('click', () => {
+    if (dropdownMenu.style.display === 'none') {
+        dropdownMenu.style.display = 'block';
+    } else {
+        dropdownMenu.style.display = 'none';
+    }
+});
+
+
 
 backButton.addEventListener('click', () => {
     if (currentPage > 1) {
@@ -488,23 +488,12 @@ function getSelectedUsers() {
     return Array.from(usersRadioButtons).find(radio => radio.checked).value;
 }
 
-
-
 // Filter table rows 
 function filterTableRows() {
     const selectedSort = getSelectedSort();
     const selectedUsers = getSelectedUsers();
 
     const filteredRows = Array.from(tableRows)
-        .filter(row => {
-            const userStatus = row.querySelector('.table-status').textContent;
-            if (selectedUsers === 'active') {
-                return userStatus.toLowerCase() === 'active';
-            } else if (selectedUsers === 'inactive') {
-                return userStatus.toLowerCase() === 'inactive';
-            }
-            return true; // 'all'
-        })
         .sort((row1, row2) => {
             let value1, value2;
             switch (selectedSort) {
@@ -525,7 +514,9 @@ function filterTableRows() {
                     value2 = new Date(row2.querySelector('.table-last-login').textContent);
                     break;
                 default:
-                    return 0; // 'default'
+                    value1 = 0;
+                    value2 = 0;
+                    break;
             }
             if (value1 < value2) {
                 return -1;
@@ -534,16 +525,23 @@ function filterTableRows() {
             } else {
                 return 0;
             }
+        })
+        .sort((row1, row2) => {
+            const status = row1.querySelector('.table-status').textContent.toLowerCase();
+            if (selectedUsers === 'active') {
+                return status === 'active' ? -1 : 1;
+            } else if (selectedUsers === 'inactive') {
+                return status === 'inactive' ? -1 : 1;
+            }
+            return 0; // 'all'
         });
 
     return filteredRows;
 }
 
+
 // Update table body with filtered rows
 function updateTableBody(filteredRows) {
-    // while (tableBody.firstChild) {
-    //     tableBody.removeChild(tableBody.firstChild);  //fix
-    // }
     filteredRows.forEach(row => {
         tableBody.appendChild(row);
     });
