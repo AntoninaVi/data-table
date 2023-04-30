@@ -250,12 +250,12 @@ function addButtonsToDropdownMenus() {
                 localStorage.setItem('userStatus', 'Active');
                 userStatus.style.color = '#4a4aff';
                 userStatus.style.backgroundColor = '#e6e6f2';
+                userStatus.textContent = 'Active';
                 localStorage.setItem(`user_${userId}_status`, 'active');
             } else {
                 userStatus.textContent = 'Inactive';
                 localStorage.setItem('userStatus', 'Inactive');
-                userStatus.style.color = '#6E6893';
-                userStatus.style.backgroundColor = '#F2F0F9';
+                userStatus.classList.add('inactive')
                 localStorage.setItem(`user_${userId}_status`, 'inactive');
 
             }
@@ -270,7 +270,7 @@ function addButtonsToDropdownMenus() {
             userStatus.style.backgroundColor = '#e6e6f2';
         } else if (storedStatus === 'inactive') {
             userStatus.textContent = 'Inactive';
-            userStatus.style.color = '#6E6893';
+            userStatus.classList.add('inactive')
             userStatus.style.backgroundColor = '#F2F0F9';
         }
     });
