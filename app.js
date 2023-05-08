@@ -22,12 +22,12 @@ const usersRef = collection(db, 'users');
 //Add data to Firebase
 // addDoc(usersRef, {
 //     email: 'example@email.com',
-//     name: 'Manuel Moeser',
-//     userStatus: 'Active',
+//     name: 'Camila Franco',
+//     userStatus: 'Inactive',
 //     lastLoginDate: new Date().toDateString(),
-//     paymentStatus: 'Unpaid',
+//     paymentStatus: 'Paid',
 //     paymentDate: new Date().toDateString(),
-//     paymentAmount: 500,
+//     paymentAmount: 100,
 //     userActivity: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies.',
 //     userDetail: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Rhoncus, sed purus eu semper morbi id nunc, adipiscing vitae. Ultricies suspendisse vestibulum.'
 // })
@@ -517,6 +517,7 @@ function filterTableRows() {
                 case 'dueDate':
                     value1 = new Date(row1.querySelector('.table-payment-date').textContent);
                     value2 = new Date(row2.querySelector('.table-payment-date').textContent);
+                    
                     break;
                 case 'lastLogin':
                     value1 = new Date(row1.querySelector('.table-last-login').textContent);
@@ -527,10 +528,10 @@ function filterTableRows() {
                     value2 = 0;
                     break;
             }
-            if (value1 < value2) {
-                return -1;
-            } else if (value1 > value2) {
+            if (value1 > value2) {
                 return 1;
+            } else if (value1 < value2) {
+                return -1;
             } else {
                 return 0;
             }
