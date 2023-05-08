@@ -22,10 +22,10 @@ const usersRef = collection(db, 'users');
 //Add data to Firebase
 // addDoc(usersRef, {
 //     email: 'example@email.com',
-//     name: 'Enrico Piras',
+//     name: 'Manuel Moeser',
 //     userStatus: 'Active',
 //     lastLoginDate: new Date().toDateString(),
-//     paymentStatus: 'Paid',
+//     paymentStatus: 'Unpaid',
 //     paymentDate: new Date().toDateString(),
 //     paymentAmount: 500,
 //     userActivity: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies.',
@@ -368,10 +368,11 @@ function displayRows(rows, page, perPage) {
 function updateFooterText() {
     const tableBody = document.getElementById('main__table-content');
     const tableRows = tableBody.getElementsByTagName('tr');
+    const visibleRows = Array.from(tableRows).filter(row => row.style.display !== 'none');
     const startRow = (currentPage - 1) * rowsPerPage + 1;
-    const endRow = startRow + rowsPerPage - 1 > tableRows.length ? tableRows.length : startRow + rowsPerPage - 1;
+    const endRow = startRow + rowsPerPage - 1 > visibleRows.length ? visibleRows.length : startRow + rowsPerPage - 1;
     rowsPerPageText.textContent = `Rows per page: ${rowsPerPage}`;
-    rowsPerPageTotal.textContent = `${startRow}-${endRow} of ${tableRows.length} rows`;
+    rowsPerPageTotal.textContent = `${startRow}-${endRow} of ${visibleRows.length} rows`;
 }
 
 function updateTable() {
@@ -430,6 +431,7 @@ const tabs = document.querySelectorAll('.tab');
 
 tabs.forEach((tab) => {
     tab.addEventListener('click', () => {
+        searchInput.value = '';
         const status = tab.textContent.toLowerCase();
         for (let i = 0; i < tableRows.length; i++) {
             const paymentStatus = tableRows[i].querySelector('.table-payment').textContent.toLowerCase();
