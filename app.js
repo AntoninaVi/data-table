@@ -504,6 +504,31 @@ function filterTableRows() {
 
     const filteredRows = Array.from(tableRows)
         .sort((row1, row2) => {
+            const lastLogin1 = new Date(row1.querySelector('.table-last-login').textContent);
+            const lastLogin2 = new Date(row2.querySelector('.table-last-login').textContent);
+            if (lastLogin1 < lastLogin2) {
+                return -1;
+            } else if (lastLogin1 > lastLogin2) {
+                return 1;
+            } else {
+                const dueDate1 = new Date(row1.querySelector('.table-payment-date').textContent);
+                const dueDate2 = new Date(row2.querySelector('.table-payment-date').textContent);
+                if (dueDate1 < dueDate2) {
+                    return -1;
+                } else if (dueDate1 > dueDate2) {
+                    return 1;
+                } else {
+                    const status = row1.querySelector('.table-status').textContent.toLowerCase();
+                    if (selectedUsers === 'active') {
+                        return status === 'active' ? -1 : 1;
+                    } else if (selectedUsers === 'inactive') {
+                        return status === 'inactive' ? -1 : 1;
+                    }
+                    return 0; // 'all'
+                }
+            }
+        })
+        .sort((row1, row2) => {
             let value1, value2;
             switch (selectedSort) {
                 case 'firstName':
@@ -514,36 +539,18 @@ function filterTableRows() {
                     value1 = row1.querySelector('.table-name').textContent.split(' ')[1];
                     value2 = row2.querySelector('.table-name').textContent.split(' ')[1];
                     break;
-                case 'dueDate':
-                    value1 = new Date(row1.querySelector('.table-payment-date').textContent);
-                    value2 = new Date(row2.querySelector('.table-payment-date').textContent);
-                    
-                    break;
-                case 'lastLogin':
-                    value1 = new Date(row1.querySelector('.table-last-login').textContent);
-                    value2 = new Date(row2.querySelector('.table-last-login').textContent);
-                    break;
                 default:
                     value1 = 0;
                     value2 = 0;
                     break;
             }
-            if (value1 > value2) {
-                return 1;
-            } else if (value1 < value2) {
+            if (value1 < value2) {
                 return -1;
+            } else if (value1 > value2) {
+                return 1;
             } else {
                 return 0;
             }
-        })
-        .sort((row1, row2) => {
-            const status = row1.querySelector('.table-status').textContent.toLowerCase();
-            if (selectedUsers === 'active') {
-                return status === 'active' ? -1 : 1;
-            } else if (selectedUsers === 'inactive') {
-                return status === 'inactive' ? -1 : 1;
-            }
-            return 0; // 'all'
         });
 
     return filteredRows;
