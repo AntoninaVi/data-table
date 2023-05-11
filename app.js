@@ -504,6 +504,23 @@ function filterTableRows() {
 
     const filteredRows = Array.from(tableRows)
         .sort((row1, row2) => {
+            const status1 = row1.querySelector('.table-status').textContent.toLowerCase();
+            const status2 = row2.querySelector('.table-status').textContent.toLowerCase();
+
+            if (selectedUsers === 'active') {
+                if (status1 === 'active' && status2 === 'inactive') {
+                    return -1;
+                } else if (status1 === 'inactive' && status2 === 'active') {
+                    return 1;
+                }
+            } else if (selectedUsers === 'inactive') {
+                if (status1 === 'inactive' && status2 === 'active') {
+                    return -1;
+                } else if (status1 === 'active' && status2 === 'inactive') {
+                    return 1;
+                }
+            }
+
             const lastLogin1 = new Date(row1.querySelector('.table-last-login').textContent);
             const lastLogin2 = new Date(row2.querySelector('.table-last-login').textContent);
             if (lastLogin1 < lastLogin2) {
@@ -518,12 +535,6 @@ function filterTableRows() {
                 } else if (dueDate1 > dueDate2) {
                     return 1;
                 } else {
-                    const status = row1.querySelector('.table-status').textContent.toLowerCase();
-                    if (selectedUsers === 'active') {
-                        return status === 'active' ? -1 : 1;
-                    } else if (selectedUsers === 'inactive') {
-                        return status === 'inactive' ? -1 : 1;
-                    }
                     return 0; // 'all'
                 }
             }
