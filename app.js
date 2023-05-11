@@ -506,66 +506,57 @@ function filterTableRows() {
         .sort((row1, row2) => {
             const status1 = row1.querySelector('.table-status').textContent.toLowerCase();
             const status2 = row2.querySelector('.table-status').textContent.toLowerCase();
-
-            if (selectedUsers === 'active') {
-                if (status1 === 'active' && status2 === 'inactive') {
-                    return -1;
-                } else if (status1 === 'inactive' && status2 === 'active') {
-                    return 1;
+            if (status1 === status2) { 
+                let value1, value2;
+                switch (selectedSort) {
+                    case 'firstName':
+                        value1 = row1.querySelector('.table-name').textContent;
+                        value2 = row2.querySelector('.table-name').textContent;
+                        break;
+                    case 'lastName':
+                        value1 = row1.querySelector('.table-name').textContent.split(' ')[1];
+                        value2 = row2.querySelector('.table-name').textContent.split(' ')[1];
+                        break;
+                    case 'lastLogin':
+                        value1 = new Date(row1.querySelector('.table-last-login').textContent);
+                        value2 = new Date(row2.querySelector('.table-last-login').textContent);
+                        break;
+                    case 'dueDate':
+                        value1 = new Date(row1.querySelector('.table-payment-date').textContent);
+                        value2 = new Date(row2.querySelector('.table-payment-date').textContent);
+                        break;
+                    default:
+                        value1 = 0;
+                        value2 = 0;
+                        break;
                 }
-            } else if (selectedUsers === 'inactive') {
-                if (status1 === 'inactive' && status2 === 'active') {
+                if (value1 < value2) {
                     return -1;
-                } else if (status1 === 'active' && status2 === 'inactive') {
-                    return 1;
-                }
-            }
-
-            const lastLogin1 = new Date(row1.querySelector('.table-last-login').textContent);
-            const lastLogin2 = new Date(row2.querySelector('.table-last-login').textContent);
-            if (lastLogin1 < lastLogin2) {
-                return -1;
-            } else if (lastLogin1 > lastLogin2) {
-                return 1;
-            } else {
-                const dueDate1 = new Date(row1.querySelector('.table-payment-date').textContent);
-                const dueDate2 = new Date(row2.querySelector('.table-payment-date').textContent);
-                if (dueDate1 < dueDate2) {
-                    return -1;
-                } else if (dueDate1 > dueDate2) {
+                } else if (value1 > value2) {
                     return 1;
                 } else {
-                    return 0; // 'all'
+                    return 0;
                 }
-            }
-        })
-        .sort((row1, row2) => {
-            let value1, value2;
-            switch (selectedSort) {
-                case 'firstName':
-                    value1 = row1.querySelector('.table-name').textContent;
-                    value2 = row2.querySelector('.table-name').textContent;
-                    break;
-                case 'lastName':
-                    value1 = row1.querySelector('.table-name').textContent.split(' ')[1];
-                    value2 = row2.querySelector('.table-name').textContent.split(' ')[1];
-                    break;
-                default:
-                    value1 = 0;
-                    value2 = 0;
-                    break;
-            }
-            if (value1 < value2) {
-                return -1;
-            } else if (value1 > value2) {
-                return 1;
             } else {
-                return 0;
+                if (selectedUsers === 'active') {
+                    if (status1 === 'active') {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                } else if (selectedUsers === 'inactive') {
+                    if (status1 === 'inactive') {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                }
             }
         });
 
     return filteredRows;
 }
+
 
 
 // Update table body with filtered rows
